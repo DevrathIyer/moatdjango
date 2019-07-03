@@ -346,9 +346,9 @@ $(document).ready(function() {
     }
     else if(testFlag == 2)
     {
-      MTurkForm.append("<input type='hidden' name=`${question}_clicks` value=`clicks.join(',')`/>");
-      MTurkForm.append("<input type='hidden' name=`${question}_agents` value=`agent_coords.join(',')`/>");
-      MTurkForm.append("<input type='hidden' name=`${question}_type` value=`question_type`/>");
+      MTurkForm.append(`<input type='hidden' name=${question}_clicks value=clicks.join(',')/>`);
+      MTurkForm.append(`<input type='hidden' name=${question}_agents value=agent_coords.join(',')/>`);
+      MTurkForm.append(`<input type='hidden' name=${question}_type value=question_type/>`);
 
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
