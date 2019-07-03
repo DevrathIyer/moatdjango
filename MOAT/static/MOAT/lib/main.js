@@ -29,9 +29,10 @@ var w = canvas.width;
 var h = canvas.height;
 
 var imgs = []
+{% load static %}
 dict.forEach(element=>{
   var img = new Image();
-  img.src = `images/${element}.png`;
+  img.src = `{% static 'MOAT/images/${element}.png' %}`;
   imgs.push(img);
 });
 //get DPI
@@ -51,24 +52,6 @@ image_size = style_width * dpi/30;
 font = parseInt(style_width * dpi/35,10);
 }
 
-
-function getUrlVars() {
-  var vars = {};
-  var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-    vars[key] = value;
-  });
-  return vars;
-}
-
-var getUrlParam = function(parameter, defaultvalue)
-{
-  var urlparameter = defaultvalue;
-  if(window.location.href.indexOf(parameter) > -1)
-  {
-    urlparameter = getUrlVars()[parameter];
-  }
-  return urlparameter;
-}
 
 var Board = function() {
   fix_dpi();
@@ -325,10 +308,6 @@ $(document).ready(function() {
     startFlag++;
   }
 
-  //gets URL params
-  NUM_AGENTS = parseInt(getUrlParam('agents',9),10);
-  practice_questions = parseInt(getUrlParam('prac',5),10);
-  experimental_questions = parseInt(getUrlParam('exper',30),10);
 
   //handles clicking on canvas
   $('#board').click(function(e){
