@@ -4,15 +4,11 @@ var startFlag = 0;
 var clicks = [];
 var agent_coords = [];
 var question = 0;
-var practice_questions = 5;
-var experimental_questions = 30;
 var question_type = 0;
 var image_size=50;
 var font = 50;
-var NUM_AGENTS = 0;
 var simulator;
 var interval;
-var assignmentID;
 var MTurkForm;
 
 //SANDBOX URL
