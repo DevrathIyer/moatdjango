@@ -7,4 +7,4 @@ def index(request):
     'assignmentId':request.GET.get('assignmentId', 'NULL'),
     'prac':request.GET.get('prac', '0'),
     'agents':request.GET.get('agents', '5')}
-    return render(request,'index.html',context)
+    return render(request,'MOAT/index.html',context)
