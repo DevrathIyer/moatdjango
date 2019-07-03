@@ -276,7 +276,7 @@ var test = function()
 
 $(document).ready(function() {
   //get MTurk Form from index.html and populate it with mturk data
-  //MTurkForm = $('#TurkForm');
+  MTurkForm = $('#TurkForm');
   //MTurkForm.action = URL;
   //MTurkForm['assignmentId'] = assignmentID;
   //get drawing variables
