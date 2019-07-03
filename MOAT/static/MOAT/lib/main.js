@@ -1,4 +1,3 @@
-var dict = ["crab", "dolphin", "elephant", "fish",  "flamingo", "frog", "hen", "monkey", "seal", "snake", "squid", "squirrel", "toucan", "whale", "bee", "bison","cat","chameleon","giraffe","hedgehog","hippo","horse","jellyfish","kangaroo","kiwi","koala","lion","llama","lobster","meerkat","octopus","ostrich","owl","panda","penguin","pig","rabbit","seahorse","shark","snail","swan","turtle"];
 var target = 0;
 var testFlag = -1;
 var startFlag = 0;
@@ -28,13 +27,6 @@ var ctx = canvas.getContext('2d');
 var w = canvas.width;
 var h = canvas.height;
 
-var imgs = []
-{% load static %}
-dict.forEach(element=>{
-  var img = new Image();
-  img.src = `{% static 'MOAT/images/${element}.png' %}`;
-  imgs.push(img);
-});
 //get DPI
 dpi = window.devicePixelRatio;
 
