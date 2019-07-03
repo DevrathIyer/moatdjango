@@ -58,5 +58,14 @@
 		</form>
 	</div>
 	<script type="text/javascript" src="{% static 'MOAT/lib/main.js' %}"></script>
+	<script>
+	var imgs = []
+	{% load static %}
+	dict.forEach(element=>{
+	  var img = new Image();
+	  img.src = `{% static 'MOAT/images/${element}.png' %}`;
+	  imgs.push(img);
+	});
+	</script>
 </body>
 </html>
