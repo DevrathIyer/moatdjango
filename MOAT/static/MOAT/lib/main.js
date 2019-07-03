@@ -346,9 +346,14 @@ $(document).ready(function() {
     }
     else if(testFlag == 2)
     {
-      MTurkForm[`${question}_clicks`] = clicks.join(',');
-      MTurkForm[`${question}_agents`] = agent_coords.join(',');
-      MTurkForm[`${question}_type`] = question_type;
+      MTurkForm[`${question}_clicks`].value = clicks.join(',');
+      MTurkForm[`${question}_clicks`].value = `${question}_clicks`;
+
+      MTurkForm[`${question}_agents`].value = agent_coords.join(',');
+      MTurkForm[`${question}_agents`].name = `${question}_agents`;
+
+      MTurkForm[`${question}_type`].value = question_type;
+      MTurkForm[`${question}_type`].name = `${question}_type`;
 
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
