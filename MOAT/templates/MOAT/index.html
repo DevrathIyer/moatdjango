@@ -56,7 +56,7 @@
 	<div id="TurkFormDiv">
 		<form id="TurkForm" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST">
 			{% csrf_token %}
-			<input type = "hidden" id="assignmentId" value="{{assignmentId}}">
+			<input type = "hidden" name="assignmentId" value="{{assignmentId}}">
 		</form>
 	</div>
 	<script>
