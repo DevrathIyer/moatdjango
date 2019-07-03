@@ -278,7 +278,7 @@ $(document).ready(function() {
   //get MTurk Form from index.html and populate it with mturk data
   MTurkForm = $('#TurkForm');
   MTurkForm.action = URL;
-  MTurkForm['assignmentId'] = assignmentID;
+  //MTurkForm['assignmentId'] = assignmentID;
   //get drawing variables
   var canvas = document.getElementById('board');
   var ctx = canvas.getContext('2d');
