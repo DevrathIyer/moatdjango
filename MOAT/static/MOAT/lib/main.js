@@ -327,7 +327,7 @@ $(document).ready(function() {
             ctx.fillStyle = "black";
             ctx.font = `${3*font/4}px Arial`;
             ctx.textAlign = "center";
-            ctx.fillText(`${question_type==1 ? "Experiment" : "Practice "} ${question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`, w/2, 30);
+            ctx.fillText(`${question_type==1 ? "Experiment" : "Practice "} ${question_type==1 ? question-practice_questions:question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`, w/2, 30);
             testFlag = 2;
           }
           else {
