@@ -20,6 +20,5 @@ from MOAT import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('accounts/', include('django.contrib.auth.urls')), # new
-    path('',views.index,name='index')
+    path('experiments/',include('MOAT.urls'))
 ]
