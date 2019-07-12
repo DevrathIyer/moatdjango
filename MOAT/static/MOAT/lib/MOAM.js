@@ -21,6 +21,19 @@ dpi = window.devicePixelRatio;
 canvas = null;
 w = 0;
 h = 0;
+fabric.Canvas.prototype.getItemByName = function(name) {
+  var object = null,
+      objects = this.getObjects();
+
+  for (var i = 0, len = this.size(); i < len; i++) {
+    if (objects[i].name && objects[i].name === name) {
+      object = objects[i];
+      break;
+    }
+  }
+
+  return object;
+};
 function fix_dpi() {
   //get CSS height
   //the + prefix casts it to an integer
@@ -29,12 +42,19 @@ function fix_dpi() {
   //get CSS width
   let style_width = +getComputedStyle(document.getElementById('cwrapper')).getPropertyValue("width").slice(0, -2);
   //scale the canvas
-
-  canvas.setHeight(style_height * dpi);
-  canvas.setWidth(style_width * dpi);
-  w = canvas.getWidth();
-  h = canvas.getHeight();
-  image_size = style_width * dpi/30;
+  if(canvas)
+  {
+    canvas.setHeight(style_height * dpi);
+    canvas.setWidth(style_width * dpi);
+  }
+  else
+  {
+    document.getElementById('board').setAttribute('height', style_height * dpi);
+    document.getElementById('board').setAttribute('width', style_width * dpi);
+  }
+  h = style_height * dpi;
+  w = style_width * dpi;
+  image_size = style_width * dpi/35;
   font = parseInt(style_width * dpi/35,10);
 }
 var Board = function() {
@@ -64,7 +84,7 @@ var Board = function() {
       var imgInstance = new fabric.Image(imgs[i], {
         left: pos.x+w/2-image_size/2,
         top: pos.y+h/2-image_size/2,
-        selection:false,
+        selectable:false,
         scaleX:image_size/500,
         scaleY:image_size/500
       });
@@ -80,7 +100,15 @@ var Board = function() {
   }
 
   this.reset = function() {
-    canvas.clear();
+    if(canvas)
+    {
+      canvas.clear();
+    }
+    else
+    {
+      var ctx = document.getElementById('board').getContext('2d');
+      ctx.clearRect(0,0,w,h);
+    }
   }
 }
 
@@ -156,8 +184,6 @@ var setupScenario = function(simulator)
     }
   }
 
-  target = Math.floor(Math.random() * (NUM_AGENTS-1));
-  console.log(target);
   testFlag = 0;
   clicks = [];
   agent_coords = [];
@@ -213,7 +239,7 @@ var run = function() {
       clearInterval(interval);
       if(question == 0)
       {
-        var text = new fabric.Text('The test will begin when you click.', { left: w/2, top: h/2,fontSize:font,selection:false, textAlign: 'center' ,selection:false});
+        var text = new fabric.Text('The test will begin when you click.', { left: w/2, top: h/2,fontSize:font,selectable:false, textAlign: 'center' ,selectable:false});
         canvas.add(text);
         testFlag = 2;
       }
@@ -236,25 +262,33 @@ var test = function()
     agent_coords.push([pos.x,pos.y]);
 
     var radius = simulator.getAgentRadius(i);
-    var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selection:true,top: pos.y + h/2-3*image_size/4});
-    circle.on('mouse:up',function(options){
-      console.log("clicked on circle");
-      canvas.remove(circle);
-    });
+    var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
     canvas.add(circle)
+    var imgInstance = new fabric.Image(imgs[i], {
+      left: w-image_size*5,
+      top: image_size*2*(i-NUM_AGENTS/2) + h/2,
+      selectable:true,
+      hasControls:false,
+      hasBorders:false,
+      hasRotatingPoint:false,
+      scaleX:image_size/500,
+      scaleY:image_size/500
+    });
+    canvas.add(imgInstance);
   }
-
-  var text = new fabric.Text('Click on the', { left: w/2-image_size/4, top: 3*image_size/2,fontSize:3*font/4,selection:false, textAlign: 'center' ,selection:false});
+  /*
+  var text = new fabric.Text('Click on the', { left: w/2-image_size/4, top: 3*image_size/2,fontSize:3*font/4,selectable:false, textAlign: 'center' ,selectable:false});
   canvas.add(text);
 
   var imgInstance = new fabric.Image(imgs[target], {
     left: pos.x+w/2-image_size/2,
     top: pos.y+h/2-image_size/2,
-    selection:false,
+    selectable:false,
     scaleX:image_size/500,
     scaleY:image_size/500
   });
   canvas.add(imgInstance);
+  */
   testFlag = 1;
 }
 
@@ -265,110 +299,135 @@ $(document).ready(function() {
   //MTurkForm['assignmentId'] = assignmentID;
   //get drawing variables
 
-  canvas = new fabric.Canvas('board');
+
   fix_dpi();
 
   //draw starting text
   if(testFlag == -1)
   {
-    //fix_dpi();
-    var text = new fabric.Text('Welcome to the Multiple Object Awareness Test. Click to continue...', { left: w/2, top: h/2,fontSize:font, textAlign: 'center' ,selection:false});
-    canvas.add(text);
+    fix_dpi();
+    var ctx = document.getElementById('board').getContext('2d');
+    ctx.fillStyle = "black";
+    ctx.font = `${font}px Arial`;
+    ctx.textAlign = "center";
+    ctx.fillText("Welcome to the Multiple Object Awareness Test. Click to continue...", w/2, h/2);
     startFlag++;
   }
 
   //handles clicking on canvas
-  canvas.on('mouse:up',function(options){
-    var x = options.e.x
-      , y = options.e.y;
-    console.log(x);
-    //are we testing?
-    if(testFlag == 1)
+  $('#board').click(function(e){
+    e.stopPropagation();
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    var x = e.clientX
+      , y = e.clientY;
+    console.log(startFlag);
+    if(testFlag == -1)
     {
-      var revealed = new Array(NUM_AGENTS);
-      for (var i=0; i<NUM_AGENTS; i++)
-        revealed[i] = 0;
-
-      for (var i=0; i<NUM_AGENTS; i++) {
-
-        if(revealed[i] == 1)
-        {
-          continue;
-        }
-        pos = simulator.getAgentPosition(i);
-        dist = Math.sqrt(Math.pow((x-w/2)-pos.x,2) + Math.pow((y-h/2)-pos.y,2));
-
-        if(dist <= simulator.getAgentRadius(i))
-        {
-          clicks.push(i);
-          if(target == i)
-          {
-            board.draw(simulator);
-            var text = new fabric.Text(`${question_type==1 ? "Experiment" : "Practice "} ${question_type==1 ? question-practice_questions:question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`, { left: w/2, top: image_size/2,fontSize:3*font/4, textAlign: 'center' ,selection:false});
-            canvas.add(text);
-            testFlag = 2;
-          }
-          else {
-            //fix_dpi();
-            var radius = simulator.getAgentRadius(i);
-
-            //var circle = new fabric.Circle({radius: radius+6, fill: 'black', selection:false, left: pos.x + w/2-3*image_size/4, top: pos.y + h/2-3*image_size/4,selection:false});
-            //canvas.add(circle)
-            /*
-            var imgInstance = new fabric.Image(imgs[i], {
-              left: pos.x+w/2-image_size/2,
-              top: pos.y+h/2-image_size/2,
-              selection:false,
-              scaleX:image_size/500,
-              scaleY:image_size/500
-            });
-            canvas.add(circle);
-            */
-          }
-          break;
-        }
-      }
-    }
-    else if(testFlag == 2)
-    {
-      MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
-
-      if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
-        question++;
-      if(question > practice_questions+experimental_questions)
-        MTurkForm.submit();
-      testFlag = 0;
-      canvas.clear();
-      run();
-    }
-    else if(testFlag == -1)
-    {
-      canvas.clear();
-      //fix_dpi();
+      board.reset();
+      fix_dpi();
+      ctx.fillStyle = "black";
+      ctx.font = `${font}px Arial`;
+      ctx.textAlign = "center";
       if(startFlag == 1)
       {
-        var text = new fabric.Text('A group of animals will appear on screen. When you are ready\nclick anywhere and they will begin to move.\nClick to continue...', { left: w/2, top: h/2, fontSize:font, textAlign: 'center', originX:'center', originY:'center', selection:false});
-        canvas.add(text);
+        ctx.fillText("A group of animals will appear on screen. When you are ready,", w/2, h/2-(font));
+        ctx.fillText("click anywhere and they will begin to move.", w/2, h/2);
+        ctx.fillText("Click to continue...", w/2, h/2 + (font));
       }
       if(startFlag == 2)
       {
-        var text = new fabric.Text('Try to keep track of their locations to the best of your ability.\nAfter a few, the animals will freeze and be covered up.\nYou will be asked to click on a target animal.\nClick to continue...', { left: w/2, top: h/2,fontSize:font, textAlign: 'center',selection:false});
-        canvas.add(text);
+        ctx.fillText("Try to keep track of their locations to the best of your ability.", w/2, h/2-(font+3*font/4));
+        ctx.fillText("After a few seconds, the animals will freeze and be covered up.",w/2, h/2-(3*font/4));
+        ctx.fillText("You have to match the animals on the right to the covered up ones.",w/2, h/2+(3*font/4));
+        ctx.fillText("Click to continue...", w/2, h/2 + (font+3*font/4));
       }
       if(startFlag == 3)
       {
-        var text = new fabric.Text('Keep clicking until you find the target.\nTry to click as few times as possible.\nClick to continue...', { left: w/2, top: h/2,fontSize:font, textAlign: 'center' ,selection:false});
-        canvas.add(text);
+        ctx.fillText("Try to be as accurate as possible",w/2, h/2-(font));
+        //ctx.fillText("Try to click as few times as possible.",w/2, h/2);
+        ctx.fillText("Click to continue...", w/2, h/2 + (font));
       }
       if(startFlag == 4)
       {
-        var text = new fabric.Text(`There are ${practice_questions+experimental_questions} questions in each HIT (${practice_questions} practice, ${experimental_questions} experimental),\nand you must complete all 4 HITs to recieve approval.,\nClick to continue...`, { left: w/2, top: h/2,fontSize:font, textAlign: 'center',selection:false });
-        canvas.add(text);
+
+        ctx.fillText(`There are ${practice_questions+experimental_questions} questions in each HIT (${practice_questions} practice, ${experimental_questions} experimental),`,w/2, h/2-(font));
+        ctx.fillText("and you must complete all 4 HITs to recieve approval.",w/2, h/2);
+        ctx.fillText("Click to continue...", w/2, h/2 + (font));
       }
       if(startFlag == 5)
       {
+        canvas = new fabric.Canvas('board');
+        canvas.on('drop',function(options){
+          console.log(options);
+          if(testFlag == 1)
+          {
+            console.log(options);
+            if(options.target)
+            {
+              console.log(options.target.name);
+              clicks.push(options.target.name);
+              canvas.remove(canvas.findTarget(options.target));
+            }
+          }
+        });
+        var revealed = new Array(NUM_AGENTS);
+        for (var i=0; i<NUM_AGENTS; i++)
+          revealed[i] = 0;
+        canvas.on('mouse:up',function(options){
+          //are we testing?
+          x = options.e.clientX;
+          y = options.e.clientY;
+          if(testFlag == 1)
+          {
+            if(options.target)
+            {
+              console.log(options.target);
+                //console.log(options.target);
+              for (var i=0; i<NUM_AGENTS; i++) {
+                if(revealed[i] == 1)
+                {
+                  continue;
+                }
+                pos = simulator.getAgentPosition(i);
+                dist = Math.sqrt(Math.pow((x-w/2)-pos.x,2) + Math.pow((y-h/2)-pos.y,2));
+
+                if(dist <= simulator.getAgentRadius(i))
+                {
+                  canvas.remove(canvas.getItemByName(`circle_${i}`));
+                  revealed[i] = 1;
+                  canvas.remove(canvas.findTarget(options.target));
+                  clicks.push([i,options.target.name]);
+                  console.log(clicks);
+                  break;
+                }
+              }
+
+              if(clicks.length == NUM_AGENTS)
+              {
+                board.draw(simulator);
+                var text = new fabric.Text(`${question_type==1 ? "Experiment" : "Practice "} ${question_type==1 ? question-practice_questions:question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`, { left: w/2, top: image_size/2,fontSize:3*font/4, textAlign: 'center' ,selectable:false});
+                canvas.add(text);
+                testFlag = 2;
+              }
+            }
+          }
+
+          if(testFlag == 2)
+          {
+            MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
+            MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
+            MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
+
+            if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
+              question++;
+            if(question > practice_questions+experimental_questions)
+              MTurkForm.submit();
+            testFlag = 0;
+            canvas.clear();
+            run();
+          }
+        });
         run();
       }
       startFlag++;
