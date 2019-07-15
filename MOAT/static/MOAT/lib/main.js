@@ -262,24 +262,26 @@ var test = function()
   fix_dpi();
   canvas = new fabric.Canvas('board');
   canvas.clear();
-
+  canvas.on('mouse:up', function(e)
+  {
+    canvas.remove(e.target);
+  });
   for (var i=0; i<NUM_AGENTS; i++) {
     var pos = simulator.getAgentPosition(i);
     radius = simulator.getAgentRadius(i);
+    var imgInstance = new fabric.Image(imgs[i], {
+      left: pos.x + w/2-image_size/2,
+      top: pos.y + h/2-image_size/2,
+      selectable:true,
+      hasControls:false,
+      hasBorders:false,
+      hasRotatingPoint:false,
+      scaleX:image_size/500,
+      scaleY:image_size/500
+    });
+    canvas.add(imgInstance);
     var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
       canvas.add(circle)
-      circle.on('mouse:up')
-      var imgInstance = new fabric.Image(imgs[i], {
-        left: w-image_size*5,
-        top: image_size*2*(i-NUM_AGENTS/2) + h/2,
-        selectable:true,
-        hasControls:false,
-        hasBorders:false,
-        hasRotatingPoint:false,
-        scaleX:image_size/500,
-        scaleY:image_size/500
-      });
-      canvas.add(imgInstance);
   }
 
   testFlag = 1;
