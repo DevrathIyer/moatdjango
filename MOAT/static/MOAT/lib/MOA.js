@@ -68,6 +68,7 @@ var Board = function() {
     for (var i=0; i<NUM_AGENTS; i++) {
 
       var pos = simulator.getAgentPosition(i);
+      console.log(pos.x + ", " + pos.y);
       var radius = simulator.getAgentRadius(i);
       ctx.drawImage(imgs[i], pos.x+w/2-image_size/2,pos.y+h/2-image_size/2,image_size, image_size);
     }
@@ -121,7 +122,7 @@ var setupScenario = function(simulator)
 
   // Specify default parameters for agents that are subsequently added.
   var velocity = new Vector2(1, 1);
-  var radius = image_size/2+5; // TODO validate
+  var radius = image_size/2+image_size/10; // TODO validate
   simulator.setAgentDefaults(
       radius*radius, // neighbor distance (min = radius * radius)
       30, // max neighbors
@@ -244,6 +245,7 @@ var run = function() {
 var test = function()
 {
   //get drawing variables
+  fix_dpi();
   var canvas = document.getElementById('board');
   var ctx = canvas.getContext('2d');
   var w = canvas.width;
@@ -260,7 +262,7 @@ var test = function()
 
     var radius = simulator.getAgentRadius(i);
     ctx.beginPath();
-    ctx.arc(pos.x + w/2, pos.y + h/2, radius+5, 0, Math.PI * 2, true);
+    ctx.arc(pos.x + w/2, pos.y + h/2, radius+radius/12, 0, Math.PI * 2, true);
     ctx.fill();
     ctx.stroke();
   }
@@ -268,7 +270,7 @@ var test = function()
   ctx.textAlign = "right";
   ctx.fillStyle = "black";
   ctx.font = `${3*font/4}px Arial`;
-  ctx.fillText("Click on the", w/2-image_size/4, 30);
+  ctx.fillText("Click on the", w/2-image_size/4, 3*image_size/4);
 
   ctx.drawImage(imgs[target], w/2 + image_size/4,0,image_size, image_size);
   testFlag = 1;
@@ -301,7 +303,7 @@ $(document).ready(function() {
   $('#board').click(function(e){
     var x = e.clientX
       , y = e.clientY;
-
+    console.log("mouse clicks: " + x + ", " + y);
     //are we testing?
     if(testFlag == 1)
     {
@@ -317,7 +319,6 @@ $(document).ready(function() {
         }
         pos = simulator.getAgentPosition(i);
         dist = Math.sqrt(Math.pow((x-w/2)-pos.x,2) + Math.pow((y-h/2)-pos.y,2));
-
         if(dist <= simulator.getAgentRadius(i))
         {
           clicks.push(i);
@@ -333,7 +334,8 @@ $(document).ready(function() {
           else {
             //fix_dpi();
             ctx.fillStyle = "white";
-            var radius = simulator.getAgentRadius(i)+6;
+            var radius = simulator.getAgentRadius(i);
+            radius += radius/10;
             ctx.beginPath();
             ctx.arc(pos.x + w/2, pos.y + h/2, radius, 0, Math.PI * 2, true);
             ctx.fill();
