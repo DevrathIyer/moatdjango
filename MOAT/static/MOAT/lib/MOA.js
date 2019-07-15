@@ -17,27 +17,43 @@ var URL = "https://workersandbox.mturk.com/mturk/externalSubmit";
 //REAL URL
 //var URL = "https://www.mturk.com/mturk/externalSubmit";
 
-//get drawing variables
-var canvas = document.getElementById('board');
-var ctx = canvas.getContext('2d');
-var w = canvas.width;
-var h = canvas.height;
-
-//get DPI
 dpi = window.devicePixelRatio;
+canvas = null;
+w = 0;
+h = 0;
+fabric.Canvas.prototype.getItemByName = function(name) {
+  var object = null,
+      objects = this.getObjects();
+
+  for (var i = 0, len = this.size(); i < len; i++) {
+    if (objects[i].name && objects[i].name === name) {
+      object = objects[i];
+      break;
+    }
+  }
+
+  return object;
+};
 
 function fix_dpi() {
-//get CSS height
-//the + prefix casts it to an integer
-//the slice method gets rid of "px"
-let style_height = +getComputedStyle(canvas).getPropertyValue("height").slice(0, -2);
-//get CSS width
-let style_width = +getComputedStyle(canvas).getPropertyValue("width").slice(0, -2);
-//scale the canvas
-canvas.setAttribute('height', style_height * dpi);
-canvas.setAttribute('width', style_width * dpi);
-image_size = style_width * dpi/30;
-font = parseInt(style_width * dpi/35,10);
+  let style_height = +getComputedStyle(document.getElementById('cwrapper')).getPropertyValue("height").slice(0, -2);
+  //get CSS width
+  let style_width = +getComputedStyle(document.getElementById('cwrapper')).getPropertyValue("width").slice(0, -2);
+  //scale the canvas
+  if(canvas)
+  {
+    canvas.setHeight(style_height * dpi);
+    canvas.setWidth(style_width * dpi);
+  }
+  else
+  {
+    document.getElementById('board').setAttribute('height', style_height * dpi);
+    document.getElementById('board').setAttribute('width', style_width * dpi);
+  }
+  h = style_height * dpi;
+  w = style_width * dpi;
+  image_size = style_width * dpi/35;
+  font = parseInt(style_width * dpi/35,10);
 }
 
 
@@ -244,35 +260,31 @@ var run = function() {
 }
 var test = function()
 {
-  //get drawing variables
   fix_dpi();
-  var canvas = document.getElementById('board');
-  var ctx = canvas.getContext('2d');
-  var w = canvas.width;
-  var h = canvas.height;
-
-
+  canvas = new fabric.Canvas('board');
+  canvas.clear();
+  canvas.on('mouse:up', function(e)
+  {
+    canvas.remove(e.target);
+  });
   for (var i=0; i<NUM_AGENTS; i++) {
-    ctx.fillStyle = "red";
-    ctx.strokeStyle = "white";
-    ctx.lineWidth = 4;
-
     var pos = simulator.getAgentPosition(i);
-    agent_coords.push([pos.x,pos.y]);
-
-    var radius = simulator.getAgentRadius(i);
-    ctx.beginPath();
-    ctx.arc(pos.x + w/2, pos.y + h/2, radius+radius/12, 0, Math.PI * 2, true);
-    ctx.fill();
-    ctx.stroke();
+    radius = simulator.getAgentRadius(i);
+    var imgInstance = new fabric.Image(imgs[i], {
+      left: pos.x + w/2-image_size/2,
+      top: pos.y + h/2-image_size/2,
+      selectable:true,
+      hasControls:false,
+      hasBorders:false,
+      hasRotatingPoint:false,
+      scaleX:image_size/500,
+      scaleY:image_size/500
+    });
+    canvas.add(imgInstance);
+    var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
+      canvas.add(circle)
   }
 
-  ctx.textAlign = "right";
-  ctx.fillStyle = "black";
-  ctx.font = `${3*font/4}px Arial`;
-  ctx.fillText("Click on the", w/2-image_size/4, 3*image_size/4);
-
-  ctx.drawImage(imgs[target], w/2 + image_size/4,0,image_size, image_size);
   testFlag = 1;
 }
 
@@ -303,7 +315,7 @@ $(document).ready(function() {
   $('#board').click(function(e){
     var x = e.clientX
       , y = e.clientY;
-    console.log("mouse clicks: " + x + ", " + y);
+    //fix_dpi();
     //are we testing?
     if(testFlag == 1)
     {
@@ -318,10 +330,25 @@ $(document).ready(function() {
           continue;
         }
         pos = simulator.getAgentPosition(i);
-        dist = Math.sqrt(Math.pow((x-w/2)-pos.x,2) + Math.pow((y-h/2)-pos.y,2));
+        /*
+        console.log("---Agent " + i + "---");
+        console.log("x: " + x);
+        console.log("y: " + y);
+        console.log("x_adjusted: " + (x-w/2));
+        console.log("y_adjusted: " + (y-h/2));
+        console.log("target_x: " + pos.x);
+        console.log("target_y: " + pos.y);
+        console.log("image_size: " + image_size);
+        */
+        dist = Math.sqrt(Math.pow((x-w/2)-(pos.x),2) + Math.pow((y-h/2)-(pos.y),2));
+        console.log("distance: " + dist);
+
+
         if(dist <= simulator.getAgentRadius(i))
         {
           clicks.push(i);
+          console.log("click");
+          /*
           if(target == i)
           {
             board.draw(simulator);
@@ -342,6 +369,7 @@ $(document).ready(function() {
 
             ctx.drawImage(imgs[i], pos.x+w/2-image_size/2,pos.y+h/2-image_size/2,image_size, image_size);
           }
+          */
           break;
         }
       }
