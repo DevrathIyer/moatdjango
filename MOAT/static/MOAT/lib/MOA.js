@@ -177,7 +177,6 @@ var setupScenario = function(simulator)
   }
 
   target = Math.floor(Math.random() * (NUM_AGENTS-1));
-  console.log(target);
   testFlag = 0;
   clicks = [];
   agent_coords = [];
@@ -256,15 +255,21 @@ var run = function() {
 }
 var test = function()
 {
-  console.log(w);
-  console.log(h);
-  console.log(dpi);
   canvas = new fabric.Canvas('board',{selectable:false});
-  console.log(canvas.getHeight());
-  console.log(canvas.getWidth());
   canvas.setZoom(1/dpi);
-  //fix_dpi();
-  //canvas.clear();
+
+  var text = new fabric.Text('Click on the', { left: w/2-3*image_size, top: image_size/2,fontSize:3*font/4,selectable:false, textAlign: 'right',font:'Arial' ,selectable:false});
+  canvas.add(text);
+
+  var imgInstance = new fabric.Image(imgs[target], {
+    left: w/2+image_size,
+    top: image_size/2,
+    selectable:false,
+    scaleX:image_size/500,
+    scaleY:image_size/500
+  });
+  canvas.add(imgInstance);
+
   canvas.on('mouse:up', function(e)
   {
     if(!e.target.name.includes('agent'))
@@ -298,7 +303,7 @@ var test = function()
   for (var i=0; i<NUM_AGENTS; i++) {
     var pos = simulator.getAgentPosition(i);
     radius = simulator.getAgentRadius(i);
-    var circle = new fabric.Circle({radius: radius, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
+    var circle = new fabric.Circle({radius: 5*radius/4, fill: 'red', stroke: 'white', strokeWidth: image_size/10, left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
       canvas.add(circle)
   }
 
@@ -329,6 +334,13 @@ var reset = function()
     }
   });
   board.draw(simulator);
+  canvas =  document.getElementById('board');
+  ctx = canvas.getContext('2d');
+  ctx.fillStyle = "black";
+  ctx.font = `${3*font/4}px Arial`;
+  ctx.textAlign = "center";
+  ctx.fillText(`${question_type==1 ? "Experiment" : "Practice "} ${question_type==1 ? question-practice_questions:question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`,w/2,image_size);
+  canvas = null;
   testFlag=2;
 }
 
@@ -381,17 +393,16 @@ $(document).ready(function() {
       ctx.textAlign = "center";
       if(startFlag == 1)
       {
-
         ctx.fillText("A group of animals will appear on screen. When you are ready,", w/2, h/2-(font));
         ctx.fillText("click anywhere and they will begin to move.", w/2, h/2);
         ctx.fillText("Click to continue...", w/2, h/2 + (font));
       }
       if(startFlag == 2)
       {
-        ctx.fillText("Try to keep track of their locations to the best of your ability.", w/2, h/2-(font+3*font/4));
-        ctx.fillText("After a few, the animals will freeze and be covered up.",w/2, h/2-(3*font/4));
-        ctx.fillText("You will be asked to click on a target animal.",w/2, h/2+(3*font/4));
-        ctx.fillText("Click to continue...", w/2, h/2 + (font+3*font/4));
+        ctx.fillText("Try to keep track of their locations to the best of your ability.", w/2, h/2-(3*font/2));
+        ctx.fillText("After a few seconds, the animals will freeze and be covered up.",w/2, h/2-(font/2));
+        ctx.fillText("You will be asked to click on a target animal.",w/2, h/2+(font/2));
+        ctx.fillText("Click to continue...", w/2, h/2 + (3*font/2));
       }
       if(startFlag == 3)
       {
@@ -402,9 +413,9 @@ $(document).ready(function() {
       if(startFlag == 4)
       {
 
-        ctx.fillText(`There are ${practice_questions+experimental_questions} questions in each HIT (${practice_questions} practice, ${experimental_questions} experimental),`,w/2, h/2-(font));
-        ctx.fillText("and you must complete all 4 HITs to recieve approval.",w/2, h/2);
-        ctx.fillText("Click to continue...", w/2, h/2 + (font));
+        ctx.fillText(`There are ${practice_questions+experimental_questions} questions(${practice_questions} practice, ${experimental_questions} experimental),`,w/2, h/2-(font/2));
+        //ctx.fillText("and you must complete all  HITs to recieve approval.",w/2, h/2);
+        ctx.fillText("Click to continue...", w/2, h/2 + (font/2));
       }
       if(startFlag == 5)
       {
