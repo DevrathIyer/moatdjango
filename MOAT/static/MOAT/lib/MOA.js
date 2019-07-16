@@ -52,6 +52,7 @@ function fix_dpi() {
   }
   h = style_height * dpi;
   w = style_width * dpi;
+  //console.log(w);
   image_size = style_width * dpi/35;
   font = parseInt(style_width * dpi/35,10);
 }
@@ -61,9 +62,6 @@ var Board = function() {
   fix_dpi();
   var canvas = document.getElementById('board');
   var ctx = canvas.getContext('2d');
-
-  var w = canvas.width;
-  var h = canvas.height;
 
   this.drawObstacles = function(simulator) {
     var obstacles = simulator.getObstacles();
@@ -82,9 +80,7 @@ var Board = function() {
 
   this.drawAgents = function(simulator) {
     for (var i=0; i<NUM_AGENTS; i++) {
-
       var pos = simulator.getAgentPosition(i);
-      console.log(pos.x + ", " + pos.y);
       var radius = simulator.getAgentRadius(i);
       ctx.drawImage(imgs[i], pos.x+w/2-image_size/2,pos.y+h/2-image_size/2,image_size, image_size);
     }
@@ -260,32 +256,75 @@ var run = function() {
 }
 var test = function()
 {
-  fix_dpi();
-  canvas = new fabric.Canvas('board');
-  canvas.clear();
+  canvas = new fabric.Canvas('board',{selectable:false});
+  canvas.setZoom(.925);
+  //fix_dpi();
+  //canvas.clear();
   canvas.on('mouse:up', function(e)
   {
-    canvas.remove(e.target);
+    if(!e.target.name.includes('agent'))
+    {
+      var r = /\d+/;
+      click = e.target.name.match(r);
+      clicks.push(click);
+      if(click == target)
+      {
+        reset();
+      }
+      else
+      {
+        var pos = simulator.getAgentPosition(click);
+        canvas.remove(e.target);
+        var imgInstance = new fabric.Image(imgs[click], {
+          left: pos.x + w/2 - image_size/2,
+          top: pos.y + h/2 - image_size/2,
+          selectable:false,
+          hasControls:false,
+          hasBorders:false,
+          hasRotatingPoint:false,
+          scaleX:image_size/500,
+          scaleY:image_size/500,
+          name:'agent_${click}'
+        });
+        canvas.add(imgInstance);
+      }
+    }
   });
   for (var i=0; i<NUM_AGENTS; i++) {
     var pos = simulator.getAgentPosition(i);
     radius = simulator.getAgentRadius(i);
-    var imgInstance = new fabric.Image(imgs[i], {
-      left: pos.x + w/2-image_size/2,
-      top: pos.y + h/2-image_size/2,
-      selectable:true,
-      hasControls:false,
-      hasBorders:false,
-      hasRotatingPoint:false,
-      scaleX:image_size/500,
-      scaleY:image_size/500
-    });
-    canvas.add(imgInstance);
-    var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
+    var circle = new fabric.Circle({radius: radius, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
       canvas.add(circle)
   }
 
   testFlag = 1;
+}
+
+var reset = function()
+{
+  wrapper = document.getElementById('cwrapper');
+  wrapper.innerHTML = "<canvas id='board'>Your browser does not support canvas.  Please use a modern browser with HTML5 support.</canvas>";
+  board = new Board();
+  canvas = null;
+  $('#board').click(function(e){
+    var x = e.clientX
+      , y = e.clientY;
+    if(testFlag == 2)
+    {
+      MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
+      MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
+      MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
+
+      if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
+        question++;
+      if(question > practice_questions+experimental_questions)
+        MTurkForm.submit();
+      testFlag = 0;
+      run();
+    }
+  });
+  board.draw(simulator);
+  testFlag=2;
 }
 
 $(document).ready(function() {
@@ -315,66 +354,7 @@ $(document).ready(function() {
   $('#board').click(function(e){
     var x = e.clientX
       , y = e.clientY;
-    //fix_dpi();
-    //are we testing?
-    if(testFlag == 1)
-    {
-      var revealed = new Array(NUM_AGENTS);
-      for (var i=0; i<NUM_AGENTS; i++)
-        revealed[i] = 0;
-
-      for (var i=0; i<NUM_AGENTS; i++) {
-
-        if(revealed[i] == 1)
-        {
-          continue;
-        }
-        pos = simulator.getAgentPosition(i);
-        /*
-        console.log("---Agent " + i + "---");
-        console.log("x: " + x);
-        console.log("y: " + y);
-        console.log("x_adjusted: " + (x-w/2));
-        console.log("y_adjusted: " + (y-h/2));
-        console.log("target_x: " + pos.x);
-        console.log("target_y: " + pos.y);
-        console.log("image_size: " + image_size);
-        */
-        dist = Math.sqrt(Math.pow((x-w/2)-(pos.x),2) + Math.pow((y-h/2)-(pos.y),2));
-        console.log("distance: " + dist);
-
-
-        if(dist <= simulator.getAgentRadius(i))
-        {
-          clicks.push(i);
-          console.log("click");
-          /*
-          if(target == i)
-          {
-            board.draw(simulator);
-            ctx.fillStyle = "black";
-            ctx.font = `${3*font/4}px Arial`;
-            ctx.textAlign = "center";
-            ctx.fillText(`${question_type==1 ? "Experiment" : "Practice "} ${question_type==1 ? question-practice_questions:question}/${question_type==1 ? experimental_questions : practice_questions} complete in ${clicks.length} clicks! Click to continue...`, w/2, 30);
-            testFlag = 2;
-          }
-          else {
-            //fix_dpi();
-            ctx.fillStyle = "white";
-            var radius = simulator.getAgentRadius(i);
-            radius += radius/10;
-            ctx.beginPath();
-            ctx.arc(pos.x + w/2, pos.y + h/2, radius, 0, Math.PI * 2, true);
-            ctx.fill();
-
-            ctx.drawImage(imgs[i], pos.x+w/2-image_size/2,pos.y+h/2-image_size/2,image_size, image_size);
-          }
-          */
-          break;
-        }
-      }
-    }
-    else if(testFlag == 2)
+    if(testFlag == 2)
     {
       MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
       MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);

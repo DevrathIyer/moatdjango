@@ -180,7 +180,6 @@ var setupScenario = function(simulator)
   }
 
   target = Math.floor(Math.random() * (NUM_AGENTS-1));
-  console.log(target);
   testFlag = 0;
   clicks = [];
   agent_coords = [];
@@ -259,12 +258,16 @@ var run = function() {
 }
 var test = function()
 {
+  canvas = new fabric.Canvas('board',{selectable:false});
   fix_dpi();
-  canvas = new fabric.Canvas('board');
   canvas.clear();
   canvas.on('mouse:up', function(e)
   {
-    canvas.remove(e.target);
+    console.log(e.target.name);
+    if(e.target.name != 'agent')
+    {
+      canvas.remove(e.target);
+    }
   });
   for (var i=0; i<NUM_AGENTS; i++) {
     var pos = simulator.getAgentPosition(i);
@@ -272,12 +275,13 @@ var test = function()
     var imgInstance = new fabric.Image(imgs[i], {
       left: pos.x + w/2-image_size/2,
       top: pos.y + h/2-image_size/2,
-      selectable:true,
+      selectable:false,
       hasControls:false,
       hasBorders:false,
       hasRotatingPoint:false,
       scaleX:image_size/500,
-      scaleY:image_size/500
+      scaleY:image_size/500,
+      name:'agent'
     });
     canvas.add(imgInstance);
     var circle = new fabric.Circle({radius: radius+5, fill: 'red', left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
@@ -340,7 +344,6 @@ $(document).ready(function() {
         console.log("image_size: " + image_size);
         */
         dist = Math.sqrt(Math.pow((x-w/2)-(pos.x),2) + Math.pow((y-h/2)-(pos.y),2));
-        console.log("distance: " + dist);
 
 
         if(dist <= simulator.getAgentRadius(i))
