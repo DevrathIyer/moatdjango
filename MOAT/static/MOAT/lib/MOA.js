@@ -303,6 +303,7 @@ var test = function()
   for (var i=0; i<NUM_AGENTS; i++) {
     var pos = simulator.getAgentPosition(i);
     radius = simulator.getAgentRadius(i);
+    agent_coords.push([pos.x,pos.y]);
     var circle = new fabric.Circle({radius: 5*radius/4, fill: 'red', stroke: 'white', strokeWidth: image_size/10, left: pos.x + w/2-3*image_size/4, selectable:false,top: pos.y + h/2-3*image_size/4,name:`circle_${i}`});
       canvas.add(circle)
   }
