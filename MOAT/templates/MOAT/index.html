@@ -1,0 +1,87 @@
+<html>
+<head>
+	<script>
+		var NUM_AGENTS = {{agents}};
+		var practice_questions = {{prac}};
+		var experimental_questions = {{exper}};
+		var assignmentID = "{{assignmentId}}";
+	</script>
+
+	{% load static %}
+	<script type="text/javascript" src="{% static "MOAT/lib/common.js" %}"></script>
+	<script type="text/javascript" src="{% static "MOAT/lib/agent.js" %}"></script>
+	<script type="text/javascript" src="{% static "MOAT/lib/kdtree.js" %}"></script>
+	<script type="text/javascript" src="{% static "MOAT/lib/simulator.js" %}"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/3.0.0/fabric.min.js"></script>
+	<script type="text/javascript" src="{% static "MOAT/lib/main.js" %}"></script>
+	<title>Simulator</title>
+
+	<style type="text/css">
+	#cwrapper {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		border: 1px dotted gray;
+		width:100%;
+		height: 95vh;
+	}
+	canvas {
+		padding-left: 0;
+		padding-right: 0;
+		margin-left: auto;
+		margin-right: auto;
+		display: block;
+		border: 1px dotted gray;
+		width:100%;
+		height: 95vh;
+	}
+
+      label {
+      	display: block;
+      }
+
+      body {
+      	text-align: justify;
+      	font-family: Verdana, Arial, serif;
+      	font-size: smaller;
+      	margin-right: 2em;
+      }
+
+      .clearfix {
+      	clear: both;
+      }
+
+      #dump_area {
+      	font-family: courier new, serif;
+      	font-size: small;
+      }
+    </style>
+</head>
+<body>
+	<div id="cwrapper">
+		<canvas id="board">
+			Your browser does not support canvas.  Please use a modern browser with HTML5 support.
+		</canvas>
+	</div>
+	<div id="TurkFormDiv">
+		<form id="TurkForm" action="https://workersandbox.mturk.com/mturk/externalSubmit" method="POST">
+			{% csrf_token %}
+			<input type = "hidden" name="assignmentId" value="{{assignmentId}}">
+		</form>
+	</div>
+	<script>
+	var dict = ["crab", "dolphin", "elephant", "fish",  "flamingo", "frog", "hen", "monkey", "seal", "snake", "squid", "squirrel", "toucan", "whale", "bee", "bison","cat","chameleon","giraffe","hedgehog","hippo","horse","jellyfish","kangaroo","kiwi","koala","lion","llama","lobster","meerkat","octopus","ostrich","owl","panda","penguin","pig","rabbit","seahorse","shark","snail","swan","turtle"];
+	var imgs = []
+	{% load static %}
+	dict.forEach(element=>{
+	  var img = new Image();
+	  img.src = `{% static 'MOAT/images/${element}.png' %}`;
+	  imgs.push(img);
+	});
+	</script>
+	<script type="text/javascript" src="{% static 'MOAT/lib/main.js' %}"></script>
+</body>
+</html>
