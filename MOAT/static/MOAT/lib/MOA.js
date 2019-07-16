@@ -141,7 +141,7 @@ var setupScenario = function(simulator)
       600, // time horizon
       600, // time horizon obstacles
       radius, // agent radius
-      1, // max speed
+      dpi/2, // max speed
       velocity // default velocity
     );
 
@@ -256,8 +256,13 @@ var run = function() {
 }
 var test = function()
 {
+  console.log(w);
+  console.log(h);
+  console.log(dpi);
   canvas = new fabric.Canvas('board',{selectable:false});
-  canvas.setZoom(.925);
+  console.log(canvas.getHeight());
+  console.log(canvas.getWidth());
+  canvas.setZoom(1/dpi);
   //fix_dpi();
   //canvas.clear();
   canvas.on('mouse:up', function(e)
