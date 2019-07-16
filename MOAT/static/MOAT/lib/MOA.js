@@ -114,7 +114,11 @@ var setPreferredVelocities = function(simulator) {
       simulator.setGoal(i,new Vector2(new_x,new_y));
     }
 
-    console.log(simulator.getGoal(i).minus(simulator.getAgentPosition(i)));
+    if(i == 0)
+    {
+      velocity = RVOMath.normalize (simulator.getGoal(i).minus(simulator.getAgentPosition(i)));
+      console.log(Math.sqrt(Math.pow(velocity.x,2) + Math.pow(velocity.y,2)));
+    }
     simulator.setAgentPrefVelocity(i, RVOMath.normalize (simulator.getGoal(i).minus(simulator.getAgentPosition(i))));
   }
   return stopped;
