@@ -114,6 +114,7 @@ var setPreferredVelocities = function(simulator) {
       simulator.setGoal(i,new Vector2(new_x,new_y));
     }
 
+    console.log(simulator.getGoal(i).minus(simulator.getAgentPosition(i)));
     simulator.setAgentPrefVelocity(i, RVOMath.normalize (simulator.getGoal(i).minus(simulator.getAgentPosition(i))));
   }
   return stopped;
@@ -374,7 +375,7 @@ $(document).ready(function() {
     ctx.font = `${3*font/4}px Arial`;
     ctx.fillText("Requirements:", w/20, 5*h/20);
     ctx.font = `${font/2}px Arial`;
-    ctx.fillText("You need color vision for this task.", w/20, 6*h/20);
+    ctx.fillText("You need normal vision for this task.", w/20, 6*h/20);
 
     ctx.font = `${3*font/4}px Arial`;
     ctx.fillText("Instructions:", w/20, 8*h/20);
@@ -385,9 +386,9 @@ $(document).ready(function() {
     ctx.fillText("Keep clicking until you find the target. Try to click as few times as possible.",w/20, 12*h/20);
 
     ctx.fillText(`There are ${practice_questions+experimental_questions} questions(${practice_questions} practice, ${experimental_questions} experimental), which you should be able to complete in ${(practice_questions+experimental_questions)} minutes. You are alloted ${(3/2)*(practice_questions+experimental_questions)} minutes.`,w/20, 14*h/20);
-    ctx.fillText("Please mazimize your browser. If you must do so now, please reload the page. Do not resize the browser during the experiment.", w/20, 15*h/20);
+    ctx.fillText("Please maximize your browser. If you must do so now, please reload the page. Do not resize the browser during the experiment.", w/20, 15*h/20);
     ctx.fillText("By participating in this study, you will be part of the scientific effort to understand the functioning of the human visual system.", w/20, 16*h/20);
-    ctx.fillText("You will receive $8 for your participation. You will be compensated only if you complete all the questions and adequately answer them", w/20, 17*h/20);
+    ctx.fillText("You will receive $8 for your participation. You will be compensated only if you complete all the questions and adequately answer them.", w/20, 17*h/20);
     ctx.textAlign = "center";
     ctx.fillText("BY ACCEPTING THIS HIT, YOU ACKNOWLEDGE THAT YOU READ THE CONSENT FORM,", w/2, 18*h/20);
     ctx.fillText("UNDERSTAND THE INFORMATION AND YOU CONSENT TO PARTICIPATE IN THIS STUDY.", w/2, 19*h/20);
