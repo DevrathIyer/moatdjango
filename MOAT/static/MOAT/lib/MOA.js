@@ -328,9 +328,8 @@ var reset = function()
     if(testFlag == 2)
     {
       $.ajax({
-          url: "moatdjango.herokuapp.com/data/submit&callback=?",
-          dataType: 'jsonp',
-          data: {"trial": assignmentID, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          url: "/data/submit",
+          data: {"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
           type: 'POST',
       });
       /*
@@ -424,9 +423,8 @@ $(document).ready(function() {
     if(testFlag == 2)
     {
       $.ajax({
-          url: "https://moatdjango.herokuapp.com/data/submit&callback=?",
-          dataType: 'jsonp',
-          data: {"trial": assignmentID, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          url: "/data/submit",
+          data: {"trial": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
           type: 'POST',
       });
       /*

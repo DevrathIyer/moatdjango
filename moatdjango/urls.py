@@ -20,5 +20,6 @@ from MOAT import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('experiments/',include('MOAT.urls'))
+    path('experiments/',include('MOAT.urls')),
+    path('data/submit',views.data_submit,name='submit')
 ]
