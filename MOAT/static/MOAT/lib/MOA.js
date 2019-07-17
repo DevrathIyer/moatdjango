@@ -10,6 +10,7 @@ var font = 50;
 var simulator;
 var interval;
 var MTurkForm;
+var locked = false;
 
 //SANDBOX URL
 var URL = "https://workersandbox.mturk.com/mturk/externalSubmit";
@@ -365,7 +366,16 @@ $(document).ready(function() {
   if(testFlag == -1)
   {
     fix_dpi();
-
+    if(dpi > 1)
+    {
+      ctx.fillStyle = "black";
+      ctx.font = `${3*font/4}px Arial`;
+      ctx.textAlign = "center";
+      ctx.fillText("At this time, the MOA experiment does not support your current screen resolution.", w/2, h/2 -(font/2));
+      ctx.fillText("Please return the HIT. We apologize for the inconvinience.",w/2, h/2 + (font/2));
+      locked = true;
+    }
+    else {
     ctx.fillStyle = "black";
     ctx.font = `${font}px Arial`;
     ctx.textAlign = "center";
@@ -398,6 +408,7 @@ $(document).ready(function() {
     ctx.fillText("UNDERSTAND THE INFORMATION AND YOU CONSENT TO PARTICIPATE IN THIS STUDY.", w/2, 19*h/20);
     startFlag++;
   }
+  }
 
 
   //handles clicking on canvas
@@ -417,7 +428,7 @@ $(document).ready(function() {
       testFlag = 0;
       run();
     }
-    else if(testFlag == -1)
+    else if(testFlag == -1 && !locked)
     {
       board.reset();
       fix_dpi();
