@@ -336,6 +336,10 @@ var reset = function()
       if(question > practice_questions+experimental_questions)
         MTurkForm.submit();
       testFlag = 0;
+      if(question%20 == 0)
+      {
+        setupScenario(simulator);
+      }
       run();
     }
   });
