@@ -327,19 +327,22 @@ var reset = function()
       , y = e.clientY;
     if(testFlag == 2)
     {
+      $.ajax({
+          url: "moatdjango.herokuapp.com/data/submit&callback=?",
+          dataType: 'jsonp',
+          data: {"trial": assignmentID, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          type: 'POST',
+      });
+      /*
       MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
       MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
       MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
-
+      */
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
       if(question > practice_questions+experimental_questions)
         MTurkForm.submit();
       testFlag = 0;
-      if(question%20 == 0)
-      {
-        setupScenario(simulator);
-      }
       run();
     }
   });
@@ -369,7 +372,7 @@ $(document).ready(function() {
   if(testFlag == -1)
   {
     fix_dpi();
-    if(dpi > 1)
+    if(dpi > 2)
     {
       ctx.fillStyle = "black";
       ctx.font = `${3*font/4}px Arial`;
@@ -420,14 +423,21 @@ $(document).ready(function() {
       , y = e.clientY;
     if(testFlag == 2)
     {
+      $.ajax({
+          url: "https://moatdjango.herokuapp.com/data/submit&callback=?",
+          dataType: 'jsonp',
+          data: {"trial": assignmentID, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          type: 'POST',
+      });
+      /*
       MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
       MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
       MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
-
+      */
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
       if(question > practice_questions+experimental_questions)
-        MTurkForm.submit();
+        console.log("done");
       testFlag = 0;
       run();
     }
