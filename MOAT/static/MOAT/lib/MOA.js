@@ -89,7 +89,7 @@ var Board = function() {
   this.draw = function(simulator) {
     fix_dpi();
     this.reset();
-    this.drawObstacles(simulator);
+    //this.drawObstacles(simulator);
     this.drawAgents(simulator);
   }
 
@@ -99,12 +99,6 @@ var Board = function() {
 }
 
 var setPreferredVelocities = function(simulator) {
-  fix_dpi();
-  var canvas = document.getElementById('board');
-  var ctx = canvas.getContext('2d');
-  var w = canvas.width;
-  var h = canvas.height;
-
   var stopped = 0;
   for (var i = 0; i < NUM_AGENTS; ++i) {
     if (RVOMath.absSq(simulator.getGoal(i).minus(simulator.getAgentPosition(i))) < 100) {
