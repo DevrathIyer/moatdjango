@@ -39,10 +39,10 @@ def data_submit(request):
             agent_array.append((float(x),float(y)))
         print(agent_array)
 
-        agents = json.dumps(body['agents'])
+        agents = json.dumps(agent_array)
         nagents = len(agent_array)
 
-        clicks = json.dumps(body['clicks'])
+        clicks = json.dumps(click_array)
         nclicks = len(click_array)
         target = click_array[-1]
 
