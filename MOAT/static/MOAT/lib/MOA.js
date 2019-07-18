@@ -329,7 +329,7 @@ var reset = function()
     {
       $.ajax({
           url: "/data/submit",
-          data: {"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')}),
           type: 'POST',
       });
       /*
@@ -424,14 +424,10 @@ $(document).ready(function() {
     {
       $.ajax({
           url: "/data/submit",
-          data: {"trial": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')},
+          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')}),
           type: 'POST',
       });
-      /*
-      MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
-      */
+
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
       if(question > practice_questions+experimental_questions)

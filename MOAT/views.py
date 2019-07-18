@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Experiment,DataPoint
 from django.http import HttpResponse
 import json
+import math
 
 # Create your views here.
 def MOA(request):
@@ -24,25 +25,33 @@ def MOAM(request):
 
 def data_submit(request):
     if request.method == 'POST':
-        experiment = Experiment.objects.get_or_create(id = request.body['hitId'])
+        body_unicode = request.body.decode('utf-8')
+        print(body_unicode)
+        body = json.loads(body_unicode)
 
-        click_array = list(map(int,request.body['clicks'].split(',')))
-        agent_array = list(map(float,request.body['agents'].split(',')))
+        experiment = Experiment.objects.get_or_create(id = body['hitId'])
 
-        agents = json.dumps(request.body['agents'])
+        click_array = list(map(int,body['clicks'].split(',')))
+        pre_agent_array = list(map(float,body['agents'].split(',')))
+        agent_array = []
+        for x,y in zip(pre_agent_array[0::2], pre_agent_array[1::2]):
+            agent_array.append((float(x),float(y)))
+        print(agent_array)
+
+        agents = json.dumps(body['agents'])
         nagents = len(agent_array)
 
-        clicks = json.dumps(request.body['clicks'])
+        clicks = json.dumps(body['clicks'])
         nclicks = len(click_array)
         target = click_array[-1]
 
-        type = int(request.body['type'])
-        question = int(request.body['question'])
-        worker = request.body['worker']
-        assignment = request.body['assignment']
+        type = int(body['type'])
+        question = int(body['question'])
+        worker = body['worker']
+        assignment = body['assignment']
 
         distances = []
-        for click in clicks_array:
+        for click in click_array:
             distances.append(str(math.sqrt(math.pow(agent_array[click][0] - agent_array[target][0],2) + math.pow(agent_array[click][1] - agent_array[target][1],2))))
         distances = ",".join(distances)
 
