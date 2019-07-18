@@ -78,7 +78,7 @@ def data_get(request,experiment_id):
         writer.writerow(fieldnames)
 
         for point in points:
-            data = [point.worker,point.nagents,point.type,point.question,point.target,point.nclicks,json.loads(point.clicks),json.loads(point.dists)]
+            data = [point.worker,point.nagents,point.type,point.question,point.target,point.nclicks,point.clicks,point.dists]
             data.extend(json.loads(point.agents))
             print(data)
             writer.writerow(data)
