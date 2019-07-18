@@ -57,3 +57,29 @@ def data_submit(request):
 
         point = DataPoint.objects.create(experiment=experiment,assignment=assignment,worker=worker,question=question,nclicks=nclicks,nagents=nagents,clicks=clicks,agents=agents,target=target,dists=distances,type=type)
         return HttpResponse(status=204)
+
+def data_get(request,experiment_id):
+    if request.method == 'GET':
+        experiment = Experiment.objects.get(id=experiment_id)
+        points = experiment.datapoint_set.all()
+
+        try:
+            agents = points[0].nagents
+        except:
+            return None
+
+        response = HttpResponse(content_type='text/csv')
+        fieldnames = ['WorkerID', 'nItems','Experimental','Question','Target','nClicks','Clicks','Distances']
+        fieldnames.extend(["Agent {} Location".format(x) for x in range(0,agents)])
+        response['Content-Disposition'] = 'attachment; filename="{}.csv"'.format(experiment_id.replace(' ','_'))
+
+        writer = csv.writer(response)
+        writer.writerow(fieldnames)
+
+        for point in points:
+            data = [point.worker,point.nagents,point.type,point.question,point.target,point.nclicks,json.dumps(point.clicks),json.dumps(point.dists)]
+            data.extend(json.dumps(point.agents))
+            print(data)
+            writer.writerow(data)
+
+        return response
