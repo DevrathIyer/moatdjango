@@ -389,7 +389,7 @@ $(document).ready(function() {
     ctx.fillText("Keep clicking until you find the target. Try to click as few times as possible.",w/20, 12*h/20);
 
     ctx.fillText(`There are ${practice_questions+experimental_questions} questions(${practice_questions} practice, ${experimental_questions} experimental), which you should be able to complete in ${(practice_questions+experimental_questions)/2} minutes. You are alloted ${(practice_questions+experimental_questions) } minutes.`,w/20, 14*h/20);
-    ctx.fillText("Please maximize your browser. If you must do so now, please reload the page. Do not resize the browser during the experiment.", w/20, 15*h/20);
+    ctx.fillText("Please maximize your browser now and reload the page (Ctrl + R). Do not resize the browser during the experiment.", w/20, 15*h/20);
     ctx.fillText("By participating in this study, you will be part of the scientific effort to understand the functioning of the human visual system.", w/20, 16*h/20);
     ctx.fillText("You will receive $8 for your participation. You will be compensated only if you complete all the questions and adequately answer them.", w/20, 17*h/20);
     ctx.textAlign = "center";
