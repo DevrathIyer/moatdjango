@@ -29,7 +29,7 @@ def data_submit(request):
         print(body_unicode)
         body = json.loads(body_unicode)
 
-        experiment = Experiment.objects.get_or_create(id = body['hitId'])
+        experiment = Experiment.objects.get_or_create(id = body['hitId'])[0]
 
         click_array = list(map(int,body['clicks'].split(',')))
         pre_agent_array = list(map(float,body['agents'].split(',')))

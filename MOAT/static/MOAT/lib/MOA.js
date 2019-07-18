@@ -181,7 +181,7 @@ var setupScenario = function(simulator)
     }
   }
 
-  target = Math.floor(Math.random() * (NUM_AGENTS-1));
+  target = Math.floor(Math.random() * (NUM_AGENTS));
   testFlag = 0;
   clicks = [];
   agent_coords = [];
