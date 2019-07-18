@@ -328,7 +328,7 @@ var reset = function()
     {
       $.ajax({
           url: "/data/submit",
-          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')}),
+          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(','),"width":w,"height":h,"dpi":dpi}),
           type: 'POST',
       });
       /*
@@ -413,7 +413,7 @@ $(document).ready(function() {
     {
       $.ajax({
           url: "/data/submit",
-          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',')}),
+          data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(',') ,"width":w,"height":h,"dpi":dpi}),
           type: 'POST',
       });
 
