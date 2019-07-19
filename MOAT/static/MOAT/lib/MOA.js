@@ -9,6 +9,7 @@ var image_size=50;
 var font = 50;
 var simulator;
 var interval;
+var locked = false;
 var MTurkForm;
 
 //SANDBOX URL
@@ -318,18 +319,13 @@ var reset = function()
   $('#board').click(function(e){
     var x = e.clientX
       , y = e.clientY;
-    if(testFlag == 2)
+    if(testFlag == 2 && !locked)
     {
       $.ajax({
           url: "/data/submit",
           data: JSON.stringify({"hitId":hitId, "assignment": assignmentID, "worker":worker, "question": question, "type":question_type, "clicks": clicks.join(','), "agents": agent_coords.join(','),"width":w,"height":h,"dpi":dpi}),
           type: 'POST',
       });
-      /*
-      MTurkForm.append(`<input type='hidden' name=${question}_clicks value=${clicks.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_agents value=${agent_coords.join(',')}/>`);
-      MTurkForm.append(`<input type='hidden' name=${question}_type value=${question_type}/>`);
-      */
       if(assignmentID != "ASSIGNMENT_ID_NOT_AVAILABLE")
         question++;
       if(question > practice_questions+experimental_questions)
@@ -365,37 +361,48 @@ $(document).ready(function() {
   {
     fix_dpi();
 
-    ctx.fillStyle = "black";
-    ctx.font = `${font}px Arial`;
-    ctx.textAlign = "center";
-    ctx.fillText("READ CAREFULLY BEFORE ACCEPTING HIT:", w/2, h/20);
+    if(dpi > 1.5)
+    {
+      ctx.fillStyle = "black";
+      ctx.font = `${3*font/4}px Arial`;
+      ctx.textAlign = "center";
+      ctx.fillText("At this time, the MOA experiment does not support higher resolution screens.", w/2, h/2 - (font/2));
+      ctx.fillText("Please return the HIT. We apologize for the inconvenience.", w/2, h/2 + (font/2));
+      locked = true;
+    }
+    else {
+      ctx.fillStyle = "black";
+      ctx.font = `${font}px Arial`;
+      ctx.textAlign = "center";
+      ctx.fillText("READ CAREFULLY BEFORE ACCEPTING HIT:", w/2, h/20);
 
-    ctx.font = `${font/2}px Arial`;
-    ctx.textAlign = "left";
-    ctx.fillText("This study is part of a research project titled 'Multiple Object Awareness'. The principal investigator in charge of this study is Jeremy Wolfe.", w/20 , 2*h/20);
-    ctx.fillText("However, other research staff may be involved and can act on behalf of the person in charge.", w/20, 3*h/20);
+      ctx.font = `${font/2}px Arial`;
+      ctx.textAlign = "left";
+      ctx.fillText("This study is part of a research project titled 'Multiple Object Awareness'. The principal investigator in charge of this study is Jeremy Wolfe.", w/20 , 2*h/20);
+      ctx.fillText("However, other research staff may be involved and can act on behalf of the person in charge.", w/20, 3*h/20);
 
-    ctx.font = `${3*font/4}px Arial`;
-    ctx.fillText("Requirements:", w/20, 5*h/20);
-    ctx.font = `${font/2}px Arial`;
-    ctx.fillText("You need normal vision for this task.", w/20, 6*h/20);
+      ctx.font = `${3*font/4}px Arial`;
+      ctx.fillText("Requirements:", w/20, 5*h/20);
+      ctx.font = `${font/2}px Arial`;
+      ctx.fillText("You need normal vision for this task.", w/20, 6*h/20);
 
-    ctx.font = `${3*font/4}px Arial`;
-    ctx.fillText("Instructions:", w/20, 8*h/20);
-    ctx.font = `${font/2}px Arial`;
-    ctx.fillText("A group of animals will appear on screen. When you are ready, click anywhere and they will begin to move.", w/20, 9*h/20);
-    ctx.fillText("Try to keep track of their locations to the best of your ability.",w/20, 10*h/20);
-    ctx.fillText("After a few seconds, the animals will freeze and be covered up. You will be asked to click on a target animal.",w/20, 11*h/20);
-    ctx.fillText("Keep clicking until you find the target. Try to click as few times as possible.",w/20, 12*h/20);
+      ctx.font = `${3*font/4}px Arial`;
+      ctx.fillText("Instructions:", w/20, 8*h/20);
+      ctx.font = `${font/2}px Arial`;
+      ctx.fillText("A group of animals will appear on screen. When you are ready, click anywhere and they will begin to move.", w/20, 9*h/20);
+      ctx.fillText("Try to keep track of their locations to the best of your ability.",w/20, 10*h/20);
+      ctx.fillText("After a few seconds, the animals will freeze and be covered up. You will be asked to click on a target animal.",w/20, 11*h/20);
+      ctx.fillText("Keep clicking until you find the target. Try to click as few times as possible.",w/20, 12*h/20);
 
-    ctx.fillText(`There are ${practice_questions+experimental_questions} questions(${practice_questions} practice, ${experimental_questions} experimental), which you should be able to complete in ${(practice_questions+experimental_questions)/2} minutes. You are alloted ${(practice_questions+experimental_questions) } minutes.`,w/20, 14*h/20);
-    ctx.fillText("Please maximize your browser now and reload the page (Ctrl + R). Do not resize the browser during the experiment.", w/20, 15*h/20);
-    ctx.fillText("By participating in this study, you will be part of the scientific effort to understand the functioning of the human visual system.", w/20, 16*h/20);
-    ctx.fillText("You will receive $8 for your participation. You will be compensated only if you complete all the questions and adequately answer them.", w/20, 17*h/20);
-    ctx.textAlign = "center";
-    ctx.fillText("BY ACCEPTING THIS HIT, YOU ACKNOWLEDGE THAT YOU READ THE CONSENT FORM,", w/2, 18*h/20);
-    ctx.fillText("UNDERSTAND THE INFORMATION AND YOU CONSENT TO PARTICIPATE IN THIS STUDY.", w/2, 19*h/20);
-    startFlag++;
+      ctx.fillText(`There are ${practice_questions+experimental_questions} questions(${practice_questions} practice, ${experimental_questions} experimental), which you should be able to complete in ${(practice_questions+experimental_questions)/2} minutes. You are alloted ${(practice_questions+experimental_questions) } minutes.`,w/20, 14*h/20);
+      ctx.fillText("Please maximize your browser now and reload the page (Ctrl + R). Do not resize the browser during the experiment.", w/20, 15*h/20);
+      ctx.fillText("By participating in this study, you will be part of the scientific effort to understand the functioning of the human visual system.", w/20, 16*h/20);
+      ctx.fillText("You will receive $8 for your participation. You will be compensated only if you complete all the questions and adequately answer them.", w/20, 17*h/20);
+      ctx.textAlign = "center";
+      ctx.fillText("BY ACCEPTING THIS HIT, YOU ACKNOWLEDGE THAT YOU READ THE CONSENT FORM,", w/2, 18*h/20);
+      ctx.fillText("UNDERSTAND THE INFORMATION AND YOU CONSENT TO PARTICIPATE IN THIS STUDY.", w/2, 19*h/20);
+      startFlag++;
+    }
   }
 
 
@@ -403,7 +410,7 @@ $(document).ready(function() {
   $('#board').click(function(e){
     var x = e.clientX
       , y = e.clientY;
-    if(testFlag == 2)
+    if(testFlag == 2 && !locked)
     {
       $.ajax({
           url: "/data/submit",
@@ -418,7 +425,7 @@ $(document).ready(function() {
       testFlag = 0;
       run();
     }
-    else if(testFlag == -1)
+    else if(testFlag == -1 && !locked)
     {
       board.reset();
       fix_dpi();
