@@ -4,7 +4,7 @@ class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
 
 class DataPoint(models.Model):
-    worker = models.SlugField()
+    worker = models.ForeignKey('Worker',on_delete=models.CASCADE)
     assignment = models.SlugField()
     question = models.IntegerField()
     type = models.IntegerField()
@@ -18,3 +18,7 @@ class DataPoint(models.Model):
     height = models.FloatField()
     dpi = models.FloatField()
     experiment = models.ForeignKey('Experiment',on_delete=models.CASCADE)
+
+class Worker(models.Model):
+    name = models.CharField(max_length = 100)
+    experiments = models.ManyToManyField('Experiment')
