@@ -12,9 +12,7 @@ admin.site.unregister(Group)
 
 class ExperimentAdmin(admin.ModelAdmin):
     fields = ['id']
-    #list_display = ('get_workers')
+    list_display = ('get_workers')
 
-    def get_workers(self, obj):
-        return "\n".join([p.workers for p in obj.workers.all()])
 
 admin.site.register(Experiment,ExperimentAdmin)
