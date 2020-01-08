@@ -9,8 +9,9 @@ admin.site.register(DataPoint)
 admin.site.register(Worker)
 admin.site.unregister(User)
 admin.site.unregister(Group)
+
 class ExperimentAdmin(admin.ModelAdmin):
-    fields = ['id', 'workers']
+    fields = ['id']
     #list_display = ('get_workers')
 
     def get_workers(self, obj):
