@@ -1,18 +1,21 @@
 from django.contrib import admin
 from .models import Experiment, DataPoint, Worker
 # Register your models here.
+from django.shortcuts import render
 from django.contrib.auth.models import Group,User
 
+from django.contrib.admin import AdminSite
+from django.views.decorators.cache import never_cache
 
+class CustomAdmin(AdminSite):
+    @never_cache
+    def index(request, extra_context=None):
+        return render(request, 'Admin/Index.html',extra_context)
 
-admin.site.register(DataPoint)
-admin.site.register(Worker)
-admin.site.unregister(User)
-admin.site.unregister(Group)
+admin_site = CustomAdmin()
+admin_site.register(DataPoint)
+admin_site.register(Worker)
+#admin_site.unregister(User)
+#admin_site.unregister(Group)
 
-class ExperimentAdmin(admin.ModelAdmin):
-    fields = ['id']
-    list_display = ('get_workers')
-
-
-admin.site.register(Experiment,ExperimentAdmin)
+admin_site.register(Experiment)

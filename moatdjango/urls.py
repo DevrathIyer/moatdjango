@@ -13,13 +13,14 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-
+from MOAT.admin import CustomAdmin
 from django.contrib import admin
 from django.urls import path,include
 from MOAT import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', CustomAdmin.index, name ="AdminIndex"),
+    #path('admin/', admin.site.urls),
     path('experiments/',include('MOAT.urls')),
     path('data/submit',views.data_submit,name='submit'),
     path('data/get/<slug:experiment_id>',views.data_get,name='get')
