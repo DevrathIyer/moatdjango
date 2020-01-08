@@ -31,7 +31,6 @@ DEBUG = True
 
 INSTALLED_APPS = [
     'suit',
-    #'MOAT.apps.SuitConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
