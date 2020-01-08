@@ -2,8 +2,10 @@ from django.db import models
 
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
-    def get_workers(self, obj):
-        return "\n".join([p.workers for p in obj.workers.all()])
+
+    def get_workers(self):
+        return "\n".join([p.workers for p in self.workers.all()])
+
     def __str__(self):
         return self.id
 
