@@ -1,6 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify %}
-HELLLO
+
 <table style="width:100%">
         <tr>
             <th>Worker</th>
@@ -11,7 +11,7 @@ HELLLO
         </tr>
         {% endfor %}
     </table>
-{% block extrahead %}{{ block.super }}
+{% block extrahead %}HELLLO{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 {{ media }}
 {% endblock %}
