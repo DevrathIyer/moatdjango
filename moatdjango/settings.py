@@ -102,7 +102,14 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 ASGI_APPLICATION = 'moatdjango.routing.application'
-
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+    },
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
