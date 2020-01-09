@@ -22,6 +22,7 @@ urlpatterns = [
     #path('admin/', CustomAdmin.index, name ="AdminIndex"),
     path('admin/', admin.site.urls),
     path('admin/experiment/<slug:experiment_id>/<slug:worker_id>',mysite.workerExperiment, name="workerExperiment"),
+    path('admin/getWorkerData/<slug:experiment_id>/<slug:worker_id>',mysite.getWorkerData, name="getWorkerData"),
     path('experiments/',include('MOAT.urls')),
     path('data/submit',views.data_submit,name='submit'),
     path('data/get/<slug:experiment_id>',views.data_get,name='get')

@@ -3,6 +3,7 @@ from django.contrib.admin import sites
 from .models import Experiment, DataPoint, Worker
 from django.shortcuts import render
 import logging
+from django.http import JsonResponse
 logger = logging.getLogger('testlogger')
 
 class MyAdminSite(admin.AdminSite):
@@ -11,13 +12,25 @@ class MyAdminSite(admin.AdminSite):
     def workerExperiment(self,request,experiment_id,worker_id):
         return render(request,'Admin/workerExperiment.html')
 
+    def getWorkerData(self,request,experiment_id,worker_id):
+        worker = Worker.objects.get(pk=worker_id)
+        exp = Experiment.objects.get(pk=experiment_id)
+
+        context = {}
+        context['DataPoints'] = DataPoint.objects.get(worker=worker,experiment=exp)
+
+        return JsonResponse(context)
+
 class ExperimentAdmin(admin.ModelAdmin):
     def change_view(self, request, object_id, form_url='', extra_context=None):
         logger.info(object_id)
         exp = Experiment.objects.get(pk=object_id)
+
         extra_context = extra_context or {}
+
         extra_context['workers'] = exp.worker_set.all()
         extra_context['object_id'] = object_id
+
         return super(ExperimentAdmin, self).change_view(request,object_id, form_url='', extra_context=extra_context)
 mysite = MyAdminSite()
 admin.site = mysite
