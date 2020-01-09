@@ -32,8 +32,8 @@ class ExperimentAdmin(admin.ModelAdmin):
         extra_context['workers'] = exp.worker_set.all()
         extra_context['object_id'] = object_id
 
-        return super(ExperimentAdmin, self).change_view(request,object_id, form_url='', extra_context=extra_context)
-        #return render(request,'Admin/MOAT/experiment/change_form.html',extra_context)
+        #return super(ExperimentAdmin, self).change_view(request,object_id, form_url='', extra_context=extra_context)
+        return render(request,'Admin/MOAT/experiment/change_form.html',extra_context)
 mysite = MyAdminSite()
 admin.site = mysite
 sites.site = mysite
