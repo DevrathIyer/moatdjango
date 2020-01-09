@@ -16,7 +16,7 @@ python_version = "*"
 django-heroku = "*"
 gunicorn = "*"
 "django-suit"="*"
-channels="2.4.0"
+channels="*"
 
 
 [dev-packages]
