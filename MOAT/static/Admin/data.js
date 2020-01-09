@@ -5,6 +5,7 @@ $(function() {
     
     datasock.onmessage = function(message) {
         var data = JSON.parse(message.data);
+        console.log(data)
         var chat = $("#chat")
         var ele = $('<tr></tr>')
 

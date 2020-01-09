@@ -4,7 +4,9 @@ from django.http import HttpResponse
 import json
 import math
 import csv
+from channels.layers import get_channel_layer
 
+from asgiref.sync import async_to_sync
 # Create your views here.
 def MOA(request):
     context = {
@@ -86,5 +88,8 @@ def data_get(request,experiment_id):
             data.extend(json.loads(point.agents))
             print(data)
             writer.writerow(data)
-
+        layer = get_channel_layer()
+        async_to_sync(layer.group_send)('data_room', {
+            'message': 'hello',
+        })
         return response
