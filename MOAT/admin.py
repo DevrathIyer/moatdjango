@@ -22,6 +22,7 @@ class MyAdminSite(admin.AdminSite):
         return JsonResponse(context)
 
 class ExperimentAdmin(admin.ModelAdmin):
+    change_view_template = 'admin/experiment/change_form.html'
     def change_view(self, request, object_id, form_url='', extra_context=None):
         logger.info(object_id)
         exp = Experiment.objects.get(pk=object_id)
