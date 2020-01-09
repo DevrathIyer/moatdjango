@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6589c62-a685-4dce-b030-9d51740e5ed2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/moatdjango/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/moatdjango/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,16 +21,16 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="36" lean-forward="true" selection-start-column="36" selection-end-column="36" />
+            <state relative-caret-position="544">
+              <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
               <folding>
                 <element signature="e#647#655#0" expanded="true" />
                 <element signature="e#757#765#0" expanded="true" />
                 <element signature="e#950#958#0" expanded="true" />
-                <element signature="e#2270#2288#0" expanded="true" />
+                <element signature="e#2310#2328#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -66,7 +66,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/moatdjango/settings.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="203">
@@ -136,7 +136,6 @@
         <option value="$PROJECT_DIR$/MOAT/apps.py" />
         <option value="$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/cahnge_form.html" />
         <option value="$PROJECT_DIR$/MOAT/models.py" />
-        <option value="$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html" />
         <option value="$PROJECT_DIR$/MOAT/static/Admin/chat.js" />
         <option value="$PROJECT_DIR$/moatdjango/urls.py" />
         <option value="$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html" />
@@ -146,6 +145,7 @@
         <option value="$PROJECT_DIR$/moatdjango/routing.py" />
         <option value="$PROJECT_DIR$/Pipfile" />
         <option value="$PROJECT_DIR$/moatdjango/settings.py" />
+        <option value="$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html" />
       </list>
     </option>
   </component>
@@ -392,26 +392,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MOAT/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="76">
-          <caret line="4" column="14" lean-forward="true" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="36" lean-forward="true" selection-start-column="36" selection-end-column="36" />
-          <folding>
-            <element signature="e#647#655#0" expanded="true" />
-            <element signature="e#757#765#0" expanded="true" />
-            <element signature="e#950#958#0" expanded="true" />
-            <element signature="e#2270#2288#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
@@ -425,6 +405,26 @@
           <caret line="32" column="5" selection-start-line="32" selection-start-column="5" selection-end-line="32" selection-end-column="5" />
           <folding>
             <element signature="e#328#337#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MOAT/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="76">
+          <caret line="4" column="14" lean-forward="true" selection-start-line="4" selection-start-column="14" selection-end-line="4" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/MOAT/experiment/change_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="544">
+          <caret line="63" column="12" selection-start-line="63" selection-start-column="12" selection-end-line="63" selection-end-column="12" />
+          <folding>
+            <element signature="e#647#655#0" expanded="true" />
+            <element signature="e#757#765#0" expanded="true" />
+            <element signature="e#950#958#0" expanded="true" />
+            <element signature="e#2310#2328#0" expanded="true" />
           </folding>
         </state>
       </provider>

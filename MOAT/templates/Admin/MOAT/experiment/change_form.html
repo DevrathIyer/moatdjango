@@ -48,9 +48,11 @@
 {% block field_sets %}
 {% for fieldset in adminform %}
   {% include "admin/includes/fieldset.html" %}
-
 {% endfor %}
-    <table style="width:100%">
+{% endblock %}
+
+{% block after_field_sets %}
+<table style="width:100%">
         <tr>
             <th>Worker</th>
         </tr>
@@ -60,10 +62,6 @@
         </tr>
         {% endfor %}
     </table>
-{% endblock %}
-
-{% block after_field_sets %}
-
 {% endblock %}
 
 {% block inline_field_sets %}
