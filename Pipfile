@@ -17,7 +17,7 @@ django-heroku = "*"
 gunicorn = "*"
 "django-suit"="*"
 channels="*"
-
+channel_redis="*"
 
 [dev-packages]
 
