@@ -1,22 +1,26 @@
-"""
 from django.contrib import admin
-from django.shortcuts import render
-from django.contrib.auth.models import Group,User
-from django.contrib.admin import AdminSite
-from django.views.decorators.cache import never_cache
-
+from django.contrib.admin import sites
 from .models import Experiment, DataPoint, Worker
+from django.shortcuts import render
+import logging
+logger = logging.getLogger('testlogger')
 
-class CustomAdmin(AdminSite):
-    @never_cache
-    def index(request, extra_context=None):
-        return render(request, 'Admin/Index.html',extra_context)
+class MyAdminSite(admin.AdminSite):
+    site_header = "Visual Attention Lab"
 
-admin_site = CustomAdmin()
-admin_site.register(DataPoint)
-admin_site.register(Worker)
-#admin_site.unregister(User)
-#admin_site.unregister(Group)
+    def workerExperiment(self,request,experiment_id,worker_id):
+        return render(request,'Admin/workerExperiment.html')
 
-admin_site.register(Experiment)
-"""
+class ExperimentAdmin(admin.ModelAdmin):
+    def change_view(self, request, object_id, form_url='', extra_context=None):
+        logger.info(object_id)
+        exp = Experiment.objects.get(pk=object_id)
+        extra_context = extra_context or {}
+        extra_context['workers'] = exp.worker_set.all()
+        extra_context['object_id'] = object_id
+        return super(ExperimentAdmin, self).change_view(request,object_id, form_url='', extra_context=extra_context)
+mysite = MyAdminSite()
+admin.site = mysite
+sites.site = mysite
+admin.site.register(Experiment,ExperimentAdmin)
+admin.site.register(Worker)

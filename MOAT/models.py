@@ -3,9 +3,6 @@ from django.db import models
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
 
-    def get_workers(self):
-        return [p.workers for p in self.workers.all()]
-
     def __str__(self):
         return self.id
 
@@ -26,6 +23,7 @@ class DataPoint(models.Model):
     experiment = models.ForeignKey('Experiment',on_delete=models.CASCADE)
 
 class Worker(models.Model):
+    id = models.SlugField(primary_key=True)
     name = models.CharField(max_length = 100)
     experiments = models.ManyToManyField('Experiment')
     def __str__(self):
