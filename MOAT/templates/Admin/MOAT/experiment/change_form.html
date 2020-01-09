@@ -1,17 +1,6 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify %}
-
-<table style="width:100%">
-        <tr>
-            <th>Worker</th>
-        </tr>
-        {% for worker in workers %}
-        <tr>
-            <td><a href="{% url 'workerExperiment' object_id worker.id %}" >{{worker.name}}</a></td>
-        </tr>
-        {% endfor %}
-    </table>
-{% block extrahead %}HELLLO{{ block.super }}
+{% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 {{ media }}
 {% endblock %}
