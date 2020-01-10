@@ -3,8 +3,8 @@ import json
 from .models import Worker
 class DataConsumer(AsyncWebsocketConsumer):
     async def connect(self):
-        self.room_name = "room"
-        self.room_group_name = 'data_%s' % self.room_name
+        self.room_name = self.scope["url_route"]["kwargs"]["worker_id"]
+        self.room_group_name = self.scope["url_route"]["kwargs"]["experiment_id"]
 
         # Join room group
         await self.channel_layer.group_add(
