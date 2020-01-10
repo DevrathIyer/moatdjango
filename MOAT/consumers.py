@@ -22,7 +22,7 @@ class DataConsumer(AsyncWebsocketConsumer):
         )
 
     # Receive message from room group
-    async def update(self):
+    async def update(self,event):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({

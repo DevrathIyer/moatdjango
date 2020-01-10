@@ -5,7 +5,6 @@ import json
 import math
 import csv
 from channels.layers import get_channel_layer
-
 from asgiref.sync import async_to_sync
 # Create your views here.
 def MOA(request):
@@ -91,6 +90,6 @@ def data_get(request,experiment_id):
         layer = get_channel_layer()
         async_to_sync(layer.group_send)(experiment_id, {
             'type':'update',
-            'content': 'hello',
+            'message': 'hello',
         })
         return response
