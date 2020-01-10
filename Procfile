@@ -1,1 +1,1 @@
-web: gunicorn moatdjango.wsgi
+web: daphne moatdjango.asgi:application --port $PORT --bind 0.0.0.0
