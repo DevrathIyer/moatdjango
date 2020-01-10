@@ -90,6 +90,7 @@ def data_get(request,experiment_id):
             writer.writerow(data)
         layer = get_channel_layer()
         async_to_sync(layer.group_send)(experiment_id, {
-            'message': 'hello',
+            'type':'update',
+            'content': 'hello',
         })
         return response
