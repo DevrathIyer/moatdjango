@@ -1,6 +1,10 @@
 {% extends "admin/base_site.html" %}
 {% load i18n admin_urls static admin_modify %}
 
+{% load_static %}
+<script type="text/javascript" src='{% static "Admin/jquery-1.12.1.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "Admin/reconnecting-websocket.min.js" %}'></script>
+  <script type="text/javascript" src='{% static "Admin/data.js" %}'></script>
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
 {{ media }}
@@ -17,7 +21,5 @@
 {% endblock %}
 
 {% block afterbody %}
-  <script type="text/javascript" src='{% static "Admin/jquery-1.12.1.min.js" %}'></script>
-  <script type="text/javascript" src='{% static "Admin/reconnecting-websocket.min.js" %}'></script>
-  <script type="text/javascript" src='{% static "Admin/data.js" %}'></script>
+
 {% endblock afterbody %}
