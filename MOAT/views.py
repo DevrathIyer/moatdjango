@@ -4,6 +4,7 @@ from django.http import HttpResponse
 import json
 import math
 import csv
+import logging
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.utils.crypto import get_random_string

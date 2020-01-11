@@ -17,7 +17,7 @@ class MyAdminSite(admin.AdminSite):
         context = {}
         try:
             points = DataPoint.objects.get(worker=worker,experiment=experiment)
-
+            logger.info(points)
             context["questions"] = []
             context["types"] = []
             context["targets"] = []
