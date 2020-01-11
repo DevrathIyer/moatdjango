@@ -59,7 +59,21 @@ def data_submit(request):
             distances.append(str(math.sqrt(math.pow(agent_array[click][0] - agent_array[target][0],2) + math.pow(agent_array[click][1] - agent_array[target][1],2))))
         distances = ",".join(distances)
 
-        point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type,)
+        point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type)
+
+        layer = get_channel_layer()
+        async_to_sync(layer.send)(worker.id, {
+            'type': 'update',
+            'question': question,
+            'nclicks': nclicks,
+            'target': target,
+            'agents': agents,
+            'pos':pos,
+            'distances':distances,
+            'clicks':clicks,
+            'q_type':type
+        })
+
         return HttpResponse(status=204)
 
 def data_get(request,experiment_id):
@@ -85,9 +99,4 @@ def data_get(request,experiment_id):
             data.extend(json.loads(point.agents))
             print(data)
             writer.writerow(data)
-        layer = get_channel_layer()
-        async_to_sync(layer.group_send)(experiment_id, {
-            'type':'update',
-            'message': 'hello',
-        })
         return response

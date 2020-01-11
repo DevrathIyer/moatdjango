@@ -4,13 +4,35 @@ from .models import Experiment, DataPoint, Worker
 from django.shortcuts import render
 import logging
 from django.http import JsonResponse
+import json
 logger = logging.getLogger('testlogger')
 
 class MyAdminSite(admin.AdminSite):
     site_header = "Visual Attention Lab"
 
     def workerExperiment(self,request,experiment_id,worker_id):
-        return render(request,'Admin/workerExperiment.html')
+        worker = Worker.objects.get(pk=worker_id)
+        experiment = Experiment.objects.get(pk=experiment_id)
+
+        points = DataPoint.objects.get(worker=worker,experiment=experiment)
+
+        context = {}
+        context["points"] = []
+        for point in points:
+            mini_context = {}
+
+            mini_context['question'] = point.question
+            mini_context['type'] = point.type
+            mini_context['target'] = point.target
+            mini_context['nclicks'] = point.nclicks
+            mini_context['agents'] = json.loads(point.agents)
+            mini_context['clicks'] = json.loads(point.clicks)
+            mini_context['dists'] = json.loads(point.dists)
+            mini_context['pos'] = point.pos
+
+            context['points'].append(mini_context)
+
+        return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
         worker = Worker.objects.get(pk=worker_id)

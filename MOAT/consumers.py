@@ -26,5 +26,12 @@ class DataConsumer(AsyncWebsocketConsumer):
 
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
-            'message': "Hello"
+            'question': event['question'],
+            'nclicks': event['nclicks'],
+            'target': event['target'],
+            'agents': event['agents'],
+            'pos':event['pos'],
+            'distances':event['distances'],
+            'clicks':event['clicks'],
+            'type':event['q_type']
         }))
