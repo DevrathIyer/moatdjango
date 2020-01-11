@@ -1,10 +1,10 @@
 {% extends "admin/base_site.html" %}{% load i18n admin_urls static admin_modify %}
 
-<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js'></script>
-<script type="text/javascript" src='https://code.jquery.com/jquery-3.4.1.js'></script>
 {% block extrahead %}{{ block.super }}
 <script type="text/javascript" src="{% url 'admin:jsi18n' %}"></script>
-
+<script type="text/javascript" src='https://cdnjs.cloudflare.com/ajax/libs/reconnecting-websocket/1.0.0/reconnecting-websocket.js'></script>
+<script type="text/javascript" src='https://code.jquery.com/jquery-3.4.1.js'></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script>
     var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
     console.log(ws_scheme + '://' + window.location.host + "/admin/getWorkerData" + window.location.pathname.split("/admin/experiment").pop());
@@ -27,6 +27,8 @@
 
         chat.append(ele)
     };
+
+
 </script>
 {{ media }}
 {% endblock %}
@@ -37,8 +39,27 @@
 
 {% block content %}
 <div id="content-main">
-
+<canvas id="myChart" width="400" height="400"></canvas>
 </div>
+<script>
+    var ctx = $('#myChart');
+    var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: {labels: {{questions|safe}},
+    datasets: [{
+        data: {{questions|safe}},
+        label: "Africa",
+        borderColor: "#3e95cd",
+        fill: false
+      }]},
+    options: {
+    title: {
+      display: true,
+      text: 'World population per region (in millions)'
+    }
+    }
+    });
+</script>
 {% endblock %}
 
 {% block afterbody %}

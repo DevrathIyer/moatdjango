@@ -50,7 +50,7 @@ def data_submit(request):
 
         type = int(body['type'])
         question = int(body['question'])
-        worker = Worker.objects.get_or_create(name=body['worker'])
+        worker,made = Worker.objects.get_or_create(name=body['worker'])
 
         pos = body['pos']
 

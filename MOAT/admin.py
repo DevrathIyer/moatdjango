@@ -14,25 +14,29 @@ class MyAdminSite(admin.AdminSite):
         worker = Worker.objects.get(pk=worker_id)
         experiment = Experiment.objects.get(pk=experiment_id)
 
-        points = DataPoint.objects.get(worker=worker,experiment=experiment)
-
         context = {}
-        context["points"] = []
-        for point in points:
-            mini_context = {}
+        try:
+            points = DataPoint.objects.get(worker=worker,experiment=experiment)
 
-            mini_context['question'] = point.question
-            mini_context['type'] = point.type
-            mini_context['target'] = point.target
-            mini_context['nclicks'] = point.nclicks
-            mini_context['agents'] = json.loads(point.agents)
-            mini_context['clicks'] = json.loads(point.clicks)
-            mini_context['dists'] = json.loads(point.dists)
-            mini_context['pos'] = point.pos
-
-            context['points'].append(mini_context)
-
-        return render(request,'Admin/workerExperiment.html',context)
+            context["questions"] = []
+            context["types"] = []
+            context["targets"] = []
+            context['nclicks'] = []
+            context['agents'] = []
+            context['clicks'] = []
+            context['dists'] = []
+            context['pos'] = []
+            for point in points:
+                context['questions'].append(point.question)
+                context['type'].append(point.type)
+                context['target'].append(point.target)
+                context['nclicks'].append(point.nclicks)
+                context['agents'].append(json.loads(point.agents))
+                context['clicks'].append(json.loads(point.clicks))
+                context['dists'].append(json.loads(point.dists))
+                context['pos'].append(point.pos)
+        finally:
+            return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
         worker = Worker.objects.get(pk=worker_id)
