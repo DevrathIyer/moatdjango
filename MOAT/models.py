@@ -1,5 +1,7 @@
-import refrom django.db import models
+import re
+from django.db import models
 from django.template.defaultfilters import slugify
+
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
 
@@ -15,10 +17,8 @@ class DataPoint(models.Model):
     agents = models.CharField(max_length=2500)
     clicks = models.CharField(max_length=100)
     dists = models.CharField(max_length=2500)
-    pos = models.CharField(max_length=100,optional=True)
+    pos = models.CharField(max_length=100)
     experiment = models.ForeignKey('Experiment',on_delete=models.CASCADE)
-
-
 
 class Worker(models.Model):
     id = models.SlugField(primary_key=True)

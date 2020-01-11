@@ -5,7 +5,7 @@ import json
 import math
 import csv
 from channels.layers import get_channel_layer
-from asgiref.sync import
+from asgiref.sync import async_to_sync
 from django.utils.crypto import get_random_string
 
 # Create your views here.
