@@ -21,16 +21,10 @@ class DataPoint(models.Model):
     experiment = models.ForeignKey('Experiment',on_delete=models.CASCADE)
 
 class Worker(models.Model):
-    id = models.SlugField(primary_key=True)
     name = models.CharField(max_length = 100)
     experiments = models.ManyToManyField('Experiment')
     def __str__(self):
         return self.name
-
-    def save(self, **kwargs):
-        if not self.pk:
-            self.id = unique_slugify(self,self.name,'id')
-        super(Worker, self).save(**kwargs)
 
 def unique_slugify(instance, value, slug_field_name='slug', queryset=None,
                    slug_separator='-'):
