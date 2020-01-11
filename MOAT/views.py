@@ -1,11 +1,13 @@
 from django.shortcuts import render
-from .models import Experiment,DataPoint
+from .models import Experiment,DataPoint,Worker
 from django.http import HttpResponse
 import json
 import math
 import csv
 from channels.layers import get_channel_layer
-from asgiref.sync import async_to_sync
+from asgiref.sync import
+from django.utils.crypto import get_random_string
+
 # Create your views here.
 def MOA(request):
     context = {
@@ -31,7 +33,7 @@ def data_submit(request):
         print(body_unicode)
         body = json.loads(body_unicode)
 
-        experiment = Experiment.objects.get_or_create(id = body['hitId'])[0]
+        experiment = Experiment.objects.get_or_create(id = body['experimentID'])[0]
 
         click_array = list(map(int,body['clicks'].split(',')))
         pre_agent_array = list(map(float,body['agents'].split(',')))
@@ -40,12 +42,7 @@ def data_submit(request):
             agent_array.append((float("{0:.3f}".format(float(x))),float("{0:.3f}".format(float(y)))))
         print(agent_array)
 
-        width = float("{0:.3f}".format(float(body['width'])))
-        height = float("{0:.3f}".format(float(body['height'])))
-        dpi = float("{0:.3f}".format(float(body['dpi'])))
-
         agents = json.dumps(agent_array)
-        nagents = len(agent_array)
 
         clicks = json.dumps(click_array)
         nclicks = len(click_array)
@@ -53,15 +50,16 @@ def data_submit(request):
 
         type = int(body['type'])
         question = int(body['question'])
-        worker = body['worker']
-        assignment = body['assignment']
+        worker = Worker.objects.get_or_create(name=body['worker'])
+
+        pos = body['pos']
 
         distances = []
         for click in click_array:
             distances.append(str(math.sqrt(math.pow(agent_array[click][0] - agent_array[target][0],2) + math.pow(agent_array[click][1] - agent_array[target][1],2))))
         distances = ",".join(distances)
 
-        point = DataPoint.objects.create(experiment=experiment,assignment=assignment,worker=worker,question=question,nclicks=nclicks,nagents=nagents,clicks=clicks,agents=agents,target=target,dists=distances,type=type, width=width,height=height,dpi=dpi)
+        point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type,)
         return HttpResponse(status=204)
 
 def data_get(request,experiment_id):
