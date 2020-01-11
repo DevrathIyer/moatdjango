@@ -29,7 +29,8 @@ class Worker(models.Model):
 
     def save(self, **kwargs):
         slug_str = self.name
-        unique_slugify(self, slug_str,'id')
+        if not id:
+            unique_slugify(self, slug_str, 'id')
         super(Worker, self).save(**kwargs)
 
 def unique_slugify(instance, value, slug_field_name='slug', queryset=None,
