@@ -52,7 +52,7 @@ def data_submit(request):
         type = int(body['type'])
         question = int(body['question'])
         worker,made = Worker.objects.get_or_create(name=body['worker'])
-
+        print(worker.id)
         pos = body['pos']
 
         distances = []

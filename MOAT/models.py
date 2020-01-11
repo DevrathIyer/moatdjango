@@ -29,7 +29,7 @@ class Worker(models.Model):
 
     def save(self, **kwargs):
         slug_str = self.name
-        if not id:
+        if id == '':
             unique_slugify(self, slug_str, 'id')
         super(Worker, self).save(**kwargs)
 
