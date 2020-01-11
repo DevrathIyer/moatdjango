@@ -8,7 +8,7 @@ import logging
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.utils.crypto import get_random_string
-
+logger = logging.getLogger('testlogger')
 # Create your views here.
 def MOA(request):
     context = {
@@ -53,6 +53,7 @@ def data_submit(request):
         question = int(body['question'])
         worker,made = Worker.objects.get_or_create(name=body['worker'])
         print(worker.id)
+        logger.info(worker.id)
         pos = body['pos']
 
         distances = []
