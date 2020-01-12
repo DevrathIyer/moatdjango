@@ -30,8 +30,8 @@ class MyAdminSite(admin.AdminSite):
             context['pos'] = []
             for point in points:
                 context['questions'].append(point.question)
-                context['type'].append(point.type)
-                context['target'].append(point.target)
+                context['types'].append(point.type)
+                context['targets'].append(point.target)
                 context['nclicks'].append(point.nclicks)
                 context['agents'].append(json.loads(point.agents))
                 context['clicks'].append(json.loads(point.clicks))
