@@ -14,7 +14,7 @@
 
 {% block content %}
 <div id="content-main">
-<table id = "DataTable">
+<table id = "DataTable" style="height:300px; overflow-y:scroll;">
     <tr class = "header">
         <th>Question</th>
         <th>Type</th>
@@ -77,6 +77,7 @@
 
             nClickChart.data.labels.push(data.question);
             nClickChart.data.datasets[0].data.push(data.nclicks);
+            nClickChart.update();
         }
     };
 </script>

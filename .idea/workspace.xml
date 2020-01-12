@@ -27,8 +27,11 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="775">
-              <caret line="75" column="18" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
+            <state relative-caret-position="743">
+              <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
+              <folding>
+                <element signature="e#808#848#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -441,8 +444,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="775">
-          <caret line="75" column="18" selection-start-line="75" selection-start-column="18" selection-end-line="75" selection-end-column="18" />
+        <state relative-caret-position="743">
+          <caret line="79" column="33" selection-start-line="79" selection-start-column="33" selection-end-line="79" selection-end-column="33" />
+          <folding>
+            <element signature="e#808#848#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
