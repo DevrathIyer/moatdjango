@@ -73,7 +73,7 @@
             row += "<td>" + data.nclicks + "</td>";
             row += "<td>" + data.target + "</td>";
             row += "</tr>";
-            row.insert_after($(".header"));
+            row.insertAfter($(".header"));
 
             nClickChart.data.labels.push(data.question);
             nClickChart.data.datasets[0].data.push(data.nclicks);
