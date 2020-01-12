@@ -6,6 +6,8 @@ import logging
 from django.http import JsonResponse
 import json
 from django.db import close_old_connections
+from django.utils.crypto import get_random_string
+
 logger = logging.getLogger('testlogger')
 
 class MyAdminSite(admin.AdminSite):
@@ -50,6 +52,12 @@ class MyAdminSite(admin.AdminSite):
         return JsonResponse(context)
 
 class ExperimentAdmin(admin.ModelAdmin):
+
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(ExperimentAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['key'].initial = get_random_string(length=10)
+        return form
+
     def change_view(self, request, object_id, form_url='', extra_context=None):
         self.change_form_template = 'Admin/MOAT/experiment/change_form.html'
         logger.info(object_id)
@@ -67,3 +75,4 @@ admin.site = mysite
 sites.site = mysite
 admin.site.register(Experiment,ExperimentAdmin)
 admin.site.register(Worker)
+admin.site.register(DataPoint)

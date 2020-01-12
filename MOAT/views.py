@@ -58,7 +58,7 @@ def data_submit(request):
             worker.experiments.add(experiment)
         print(worker.pk)
         logger.info("HELLO")
-        pos = body['pos']
+        pos = json.dumps(body['pos'])
 
         distances = []
         for click in click_array:

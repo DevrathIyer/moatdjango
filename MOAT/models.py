@@ -4,6 +4,8 @@ from django.template.defaultfilters import slugify
 
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
+    is_protected = models.BooleanField()
+    key = models.CharField(max_length = 15)
 
     def __str__(self):
         return self.id
