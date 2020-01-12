@@ -17,30 +17,28 @@ class MyAdminSite(admin.AdminSite):
         experiment = Experiment.objects.get(pk=experiment_id)
 
         context = {}
-        try:
-            points = DataPoint.objects.filter(worker=worker,experiment=experiment)
-            logger.info(points)
-            context["questions"] = []
-            context["types"] = []
-            context["targets"] = []
-            context['nclicks'] = []
-            context['agents'] = []
-            context['clicks'] = []
-            context['dists'] = []
-            context['pos'] = []
-            for point in points:
-                context['questions'].append(point.question)
-                context['types'].append(point.type)
-                context['targets'].append(point.target)
-                context['nclicks'].append(point.nclicks)
-                context['agents'].append(json.loads(point.agents))
-                context['clicks'].append(json.loads(point.clicks))
-                context['dists'].append(json.loads(point.dists))
-                context['pos'].append(point.pos)
-        finally:
-            logger.info(context)
-            close_old_connections()
-            return render(request,'Admin/workerExperiment.html',context)
+        points = DataPoint.objects.filter(worker=worker,experiment=experiment)
+        logger.info(points)
+        context["questions"] = []
+        context["types"] = []
+        context["targets"] = []
+        context['nclicks'] = []
+        context['agents'] = []
+        context['clicks'] = []
+        context['dists'] = []
+        context['pos'] = []
+        for point in points:
+            context['questions'].append(point.question)
+            context['types'].append(point.type)
+            context['targets'].append(point.target)
+            context['nclicks'].append(point.nclicks)
+            context['agents'].append(json.loads(point.agents))
+            context['clicks'].append(json.loads(point.clicks))
+            context['dists'].append(json.loads(point.dists))
+            context['pos'].append(point.pos)
+        logger.info(context)
+        close_old_connections()
+        return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
         worker = Worker.objects.get(pk=worker_id)
