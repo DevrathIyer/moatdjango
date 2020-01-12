@@ -27,18 +27,9 @@ class DataConsumer(AsyncWebsocketConsumer):
 
     # Receive message from room group
     async def update(self,event):
-        logger.info(json.dumps({
-            'question': event['question'],
-            'nclicks': event['nclicks'],
-            'target': event['target'],
-            'agents': event['agents'],
-            'pos':event['pos'],
-            'distances':event['distances'],
-            'clicks':event['clicks'],
-            'type':event['q_type']
-        }))
         # Send message to WebSocket
         await self.send(text_data=json.dumps({
+            'worker': event['worker'],
             'question': event['question'],
             'nclicks': event['nclicks'],
             'target': event['target'],

@@ -20,8 +20,8 @@ class MyAdminSite(admin.AdminSite):
 
         context = {}
         points = DataPoint.objects.filter(worker=worker,experiment=experiment).order_by('question')
-        logger.info(points)
         context['points'] = points
+        context['worker'] = worker_id
         context["questions"] = []
         context["types"] = []
         context["targets"] = []
@@ -39,7 +39,6 @@ class MyAdminSite(admin.AdminSite):
             context['clicks'].append(json.loads(point.clicks))
             context['dists'].append(point.dists.split(','))
             context['pos'].append(point.pos)
-        logger.info(context)
         close_old_connections()
         return render(request,'Admin/workerExperiment.html',context)
 
