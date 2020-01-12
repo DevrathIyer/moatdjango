@@ -73,10 +73,10 @@
             row += "<td>" + data.nclicks + "</td>";
             row += "<td>" + data.target + "</td>";
             row += "</tr>";
-            $("#DataTable tbody").children("tf:first").append(row);
+            $("#DataTable tbody").children("tr:first").append(row);
 
-            nclickChart.data.labels.push(data.question);
-            nclickChart.data.datasets[0].data.push(data.nclicks);
+            nClickChart.data.labels.push(data.question);
+            nClickChart.data.datasets[0].data.push(data.nclicks);
         }
     };
 </script>
