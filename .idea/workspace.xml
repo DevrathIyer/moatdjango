@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6589c62-a685-4dce-b030-9d51740e5ed2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/MOAT/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MOAT/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/views.py" afterDir="false" />
     </list>
@@ -26,11 +25,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="741">
-              <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+            <state relative-caret-position="900">
+              <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
             </state>
           </provider>
         </entry>
@@ -68,11 +67,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MOAT/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="505">
-              <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
+            <state relative-caret-position="188">
+              <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
               <folding>
                 <element signature="e#0#35#0" expanded="true" />
               </folding>
@@ -161,9 +160,9 @@
         <option value="$PROJECT_DIR$/moatdjango/settings.py" />
         <option value="$PROJECT_DIR$/MOAT/forms.py" />
         <option value="$PROJECT_DIR$/MOAT/models.py" />
-        <option value="$PROJECT_DIR$/MOAT/views.py" />
         <option value="$PROJECT_DIR$/MOAT/admin.py" />
         <option value="$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html" />
+        <option value="$PROJECT_DIR$/MOAT/views.py" />
       </list>
     </option>
   </component>
@@ -410,16 +409,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MOAT/views.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="505">
-          <caret line="41" column="8" selection-start-line="41" selection-start-column="8" selection-end-line="41" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/MOAT/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="369">
@@ -442,8 +431,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/MOAT/templates/Admin/workerExperiment.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="741">
-          <caret line="55" column="28" selection-start-line="55" selection-start-column="28" selection-end-line="55" selection-end-column="28" />
+        <state relative-caret-position="900">
+          <caret line="50" column="29" selection-start-line="50" selection-start-column="29" selection-end-line="50" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MOAT/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="188">
+          <caret line="71" column="33" selection-start-line="71" selection-start-column="33" selection-end-line="71" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

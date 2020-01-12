@@ -48,7 +48,7 @@
     {% for point in points reversed %}
     <tr>
         <td>{{point.question}}</td>
-        {% if point.type == '0' %}
+        {% if point.type == 0 %}
             <td>Practice</td>
         {% else %}
             <td>Experimental</td>

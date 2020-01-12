@@ -60,8 +60,6 @@ def data_submit(request):
         worker,made = Worker.objects.get_or_create(name=body['worker'])
         if made:
             worker.experiments.add(experiment)
-        print(worker.pk)
-        logger.info("HELLO")
         pos = json.dumps(body['pos'])
 
         distances = []
@@ -71,6 +69,7 @@ def data_submit(request):
 
         point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type)
 
+        logger.info(str(worker.pk))
         layer = get_channel_layer()
         async_to_sync(layer.send)(str(worker.pk), {
             'type': 'update',
