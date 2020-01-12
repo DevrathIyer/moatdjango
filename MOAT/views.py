@@ -64,7 +64,7 @@ def data_submit(request):
         point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type)
 
         layer = get_channel_layer()
-        async_to_sync(layer.send)(worker.id, {
+        async_to_sync(layer.send)(str(worker.pk), {
             'type': 'update',
             'question': question,
             'nclicks': nclicks,
