@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Experiment,DataPoint,Worker
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseForbidden
 import json
 import math
 import csv
@@ -9,7 +9,9 @@ from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.db import close_old_connections
 from django.utils.crypto import get_random_string
+
 logger = logging.getLogger('testlogger')
+
 # Create your views here.
 def MOA(request):
     context = {
@@ -33,17 +35,19 @@ def data_submit(request):
     close_old_connections()
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
-        print(body_unicode)
         body = json.loads(body_unicode)
 
         experiment = Experiment.objects.get_or_create(id = body['experimentID'])[0]
+
+        if experiment.is_protected:
+            if 'key' not in body or body['key'] != experiment.key:
+                return HttpResponseForbidden()
 
         click_array = list(map(int,body['clicks'].split(',')))
         pre_agent_array = list(map(float,body['agents'].split(',')))
         agent_array = []
         for x,y in zip(pre_agent_array[0::2], pre_agent_array[1::2]):
             agent_array.append((float("{0:.3f}".format(float(x))),float("{0:.3f}".format(float(y)))))
-        print(agent_array)
 
         agents = json.dumps(agent_array)
 

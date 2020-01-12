@@ -21,6 +21,7 @@ class MyAdminSite(admin.AdminSite):
         context = {}
         points = DataPoint.objects.filter(worker=worker,experiment=experiment).order_by('question')
         logger.info(points)
+        context['points'] = points
         context["questions"] = []
         context["types"] = []
         context["targets"] = []

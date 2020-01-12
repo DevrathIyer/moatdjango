@@ -39,7 +39,24 @@
 
 {% block content %}
 <div id="content-main">
-<canvas id="nClickChart" width="100" height="100"></canvas>
+<table>
+    <tr>
+        <th>Question</th>
+        <th>Type</th>
+        <th>Target</th>
+    </tr>
+    {% for point in points reversed %}
+    <tr>
+        <td>{{point.question}}</td>
+        {% if point.type == '0' %}
+            <td>Practice</td>
+        {% else %}
+            <td>Experimental</td>
+        {% endif %}
+        <td>{{point.target}}</td>
+    </tr>
+    {% endfor %}
+</table>
 <canvas id="nClickChart" width="100" height="100"></canvas>
 </div>
 <script>
