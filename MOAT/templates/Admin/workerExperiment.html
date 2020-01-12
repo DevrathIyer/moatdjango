@@ -15,7 +15,7 @@
 {% block content %}
 <div id="content-main">
 <table id = "DataTable">
-    <tr>
+    <tr class = "header">
         <th>Question</th>
         <th>Type</th>
         <th>Target</th>
@@ -73,7 +73,7 @@
             row += "<td>" + data.nclicks + "</td>";
             row += "<td>" + data.target + "</td>";
             row += "</tr>";
-            $("#DataTable tbody").children("tr:first").append(row);
+            row.insert_after($(".header"));
 
             nClickChart.data.labels.push(data.question);
             nClickChart.data.datasets[0].data.push(data.nclicks);
