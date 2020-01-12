@@ -5,12 +5,14 @@ from django.shortcuts import render
 import logging
 from django.http import JsonResponse
 import json
+from django.db import close_old_connections
 logger = logging.getLogger('testlogger')
 
 class MyAdminSite(admin.AdminSite):
     site_header = "Visual Attention Lab"
 
     def workerExperiment(self,request,experiment_id,worker_id):
+        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         experiment = Experiment.objects.get(pk=experiment_id)
 
@@ -36,6 +38,8 @@ class MyAdminSite(admin.AdminSite):
                 context['dists'].append(json.loads(point.dists))
                 context['pos'].append(point.pos)
         finally:
+            logger.info(context)
+            close_old_connections()
             return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):

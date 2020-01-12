@@ -7,6 +7,7 @@ import csv
 import logging
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
+from django.db import close_old_connections
 from django.utils.crypto import get_random_string
 logger = logging.getLogger('testlogger')
 # Create your views here.
@@ -29,6 +30,7 @@ def MOAM(request):
     return render(request,'MOAT/MOAM.html',context)
 
 def data_submit(request):
+    close_old_connections()
     if request.method == 'POST':
         body_unicode = request.body.decode('utf-8')
         print(body_unicode)
@@ -52,6 +54,8 @@ def data_submit(request):
         type = int(body['type'])
         question = int(body['question'])
         worker,made = Worker.objects.get_or_create(name=body['worker'])
+        if made:
+            worker.experiments.add(experiment)
         print(worker.pk)
         logger.info("HELLO")
         pos = body['pos']
@@ -75,7 +79,7 @@ def data_submit(request):
             'clicks':clicks,
             'q_type':type
         })
-
+        close_old_connections()
         return HttpResponse(status=204)
 
 def data_get(request,experiment_id):
