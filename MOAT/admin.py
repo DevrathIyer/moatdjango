@@ -17,7 +17,7 @@ class MyAdminSite(admin.AdminSite):
         experiment = Experiment.objects.get(pk=experiment_id)
 
         context = {}
-        points = DataPoint.objects.filter(worker=worker,experiment=experiment)
+        points = DataPoint.objects.filter(worker=worker,experiment=experiment).order_by('question')
         logger.info(points)
         context["questions"] = []
         context["types"] = []

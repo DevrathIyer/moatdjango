@@ -48,8 +48,13 @@
     data: {labels: {{questions|safe}},
     datasets: [{
         data: {{questions|safe}},
-        label: "Africa",
+        label: "Questions",
         borderColor: "#3e95cd",
+        fill: false
+      },{
+        data: {{clicks|safe}},
+        label: "clicks",
+        borderColor: "#3e05cd",
         fill: false
       }]},
     options: {
