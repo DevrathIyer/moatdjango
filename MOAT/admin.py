@@ -34,7 +34,7 @@ class MyAdminSite(admin.AdminSite):
             context['nclicks'].append(point.nclicks)
             context['agents'].append(json.loads(point.agents))
             context['clicks'].append(json.loads(point.clicks))
-            context['dists'].append(json.loads(point.dists))
+            context['dists'].append(point.dists.split(','))
             context['pos'].append(point.pos)
         logger.info(context)
         close_old_connections()
