@@ -19,7 +19,7 @@ class MyAdminSite(admin.AdminSite):
         experiment = Experiment.objects.get(pk=experiment_id)
 
         context = {}
-        points = DataPoint.objects.filter(worker=worker,experiment=experiment).order_by('question')
+        points = DataPoint.objects.filter(worker=worker,experiment=experiment,isTestPoint = False).order_by('question')
         context['points'] = points
         context['worker'] = worker_id
         context["questions"] = []

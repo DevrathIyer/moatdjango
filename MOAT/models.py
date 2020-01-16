@@ -21,6 +21,7 @@ class DataPoint(models.Model):
     dists = models.CharField(max_length=2500)
     pos = models.CharField(max_length=100)
     experiment = models.ForeignKey('Experiment',on_delete=models.CASCADE)
+    isTestPoint = models.BooleanField()
 
 class Worker(models.Model):
     name = models.CharField(max_length = 100)
