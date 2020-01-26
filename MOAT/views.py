@@ -57,6 +57,7 @@ def data_submit(request):
 
         type = int(body['type'])
         question = int(body['question'])
+        testpoint = bool(body['testpoint'])
         worker,made = Worker.objects.get_or_create(name=body['worker'])
         if made:
             worker.experiments.add(experiment)
@@ -67,7 +68,7 @@ def data_submit(request):
             distances.append(str(math.sqrt(math.pow(agent_array[click][0] - agent_array[target][0],2) + math.pow(agent_array[click][1] - agent_array[target][1],2))))
         distances = ",".join(distances)
 
-        point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type)
+        point = DataPoint.objects.create(experiment=experiment,worker=worker,question=question,nclicks=nclicks,pos=pos,clicks=clicks,agents=agents,target=target,dists=distances,type=type,isTestPoint=testpoint)
 
         layer = get_channel_layer()
         async_to_sync(layer.group_send)(str(experiment.id), {
