@@ -33,7 +33,7 @@ def MOAM(request):
 
 def data_submit(request):
     close_old_connections()
-    if request.method == 'POST':
+    if request.method == 'PUT':
         body_unicode = request.body.decode('utf-8')
         logger.info(body_unicode)
         body = json.loads(body_unicode)
