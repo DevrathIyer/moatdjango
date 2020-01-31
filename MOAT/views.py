@@ -86,6 +86,8 @@ def data_submit(request):
         })
         close_old_connections()
         return HttpResponse(status=204)
+    else:
+        return HttpResponseForbidden()
 
 def data_get(request,experiment_id):
     if request.method == 'GET':
