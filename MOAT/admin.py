@@ -47,7 +47,7 @@ class MyAdminSite(admin.AdminSite):
         exp = Experiment.objects.get(pk=experiment_id)
 
         context = {}
-        context['DataPoints'] = DataPoint.objects.get(worker=worker,experiment=exp)
+        context['DataPoints'] = DataPoint.objects.get(worker=worker,experiment=exp,isTestPoint=False)
 
         return JsonResponse(context)
 
