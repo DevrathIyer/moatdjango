@@ -86,7 +86,6 @@ def data_submit(request):
             'clicks':clicks,
             'q_type':type
         })
-        connection.close()
         close_old_connections()
         return HttpResponse(status=204)
     else:

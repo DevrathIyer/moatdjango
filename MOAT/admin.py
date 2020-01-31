@@ -61,7 +61,6 @@ class ExperimentAdmin(admin.ModelAdmin):
         return form
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
-        close_old_connections()
         self.change_form_template = 'Admin/MOAT/experiment/change_form.html'
         logger.info(object_id)
         exp = Experiment.objects.get(pk=object_id)
