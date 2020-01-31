@@ -2,12 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e6589c62-a685-4dce-b030-9d51740e5ed2" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOAT/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/admin.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOAT/migrations/0001_initial.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/migrations/0001_initial.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOAT/migrations/0002_auto_20200112_1710.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOAT/migrations/0003_datapoint_istestpoint.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MOAT/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/MOAT/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Procfile" beforeDir="false" afterPath="$PROJECT_DIR$/Procfile" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -75,7 +69,7 @@
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state>
-              <caret column="31" selection-start-column="31" selection-end-column="31" />
+              <caret column="4" selection-start-column="4" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -490,7 +484,7 @@
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state>
-          <caret column="31" selection-start-column="31" selection-end-column="31" />
+          <caret column="4" selection-start-column="4" selection-end-column="4" />
         </state>
       </provider>
     </entry>

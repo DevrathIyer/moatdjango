@@ -1,1 +1,1 @@
-web:bin/start-pgbouncer-stunnel daphne moatdjango.asgi:application --port $PORT --bind 0.0.0.0
+web: daphne moatdjango.asgi:application --port $PORT --bind 0.0.0.0
