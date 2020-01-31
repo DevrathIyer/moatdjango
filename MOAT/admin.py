@@ -43,6 +43,7 @@ class MyAdminSite(admin.AdminSite):
         return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
+        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         exp = Experiment.objects.get(pk=experiment_id)
 
@@ -54,11 +55,13 @@ class MyAdminSite(admin.AdminSite):
 class ExperimentAdmin(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
+        close_old_connections()
         form = super(ExperimentAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['key'].initial = get_random_string(length=10)
         return form
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
+        close_old_connections()
         self.change_form_template = 'Admin/MOAT/experiment/change_form.html'
         logger.info(object_id)
         exp = Experiment.objects.get(pk=object_id)

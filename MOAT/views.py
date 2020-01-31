@@ -8,6 +8,7 @@ import logging
 from channels.layers import get_channel_layer
 from asgiref.sync import async_to_sync
 from django.db import close_old_connections
+from django.db import connection
 from django.utils.crypto import get_random_string
 
 logger = logging.getLogger('testlogger')
@@ -85,6 +86,7 @@ def data_submit(request):
             'clicks':clicks,
             'q_type':type
         })
+        connection.close()
         close_old_connections()
         return HttpResponse(status=204)
     else:
