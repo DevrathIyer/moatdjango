@@ -38,6 +38,7 @@ def data_submit(request):
         logger.info(body_unicode)
         body = json.loads(body_unicode)
 
+        logger.info(body['experimentID'])
         experiment = Experiment.objects.get_or_create(id = body['experimentID'])[0]
 
         if experiment.is_protected:
