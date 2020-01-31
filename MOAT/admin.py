@@ -14,7 +14,6 @@ class MyAdminSite(admin.AdminSite):
     site_header = "Visual Attention Lab"
 
     def workerExperiment(self,request,experiment_id,worker_id):
-        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         experiment = Experiment.objects.get(pk=experiment_id)
 
@@ -39,11 +38,9 @@ class MyAdminSite(admin.AdminSite):
             context['clicks'].append(json.loads(point.clicks))
             context['dists'].append(point.dists.split(','))
             context['pos'].append(point.pos)
-        close_old_connections()
         return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
-        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         exp = Experiment.objects.get(pk=experiment_id)
 
@@ -55,7 +52,6 @@ class MyAdminSite(admin.AdminSite):
 class ExperimentAdmin(admin.ModelAdmin):
 
     def get_form(self, request, obj=None, **kwargs):
-        close_old_connections()
         form = super(ExperimentAdmin, self).get_form(request, obj, **kwargs)
         form.base_fields['key'].initial = get_random_string(length=10)
         return form
