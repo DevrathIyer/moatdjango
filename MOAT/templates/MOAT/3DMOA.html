@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>3D MOA</title>
+    <link rel="shortcut icon" href="{% static 'MOAT/TemplateData/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'MOAT/TemplateData/style.css' %}">
+    <script src="{% static 'MOAT/TemplateData/UnityProgress.js' %}"></script>
+    <script src="{% static 'MOAT/Build/UnityLoader.js' %}"></script>
+    <script>
+      var unityInstance = UnityLoader.instantiate("unityContainer", "{% static 'MOAT/Build/Web3DMOA.json' %}", {onProgress: UnityProgress});
+    </script>
+  </head>
+  <body>
+    <div class="webgl-content">
+      <div id="unityContainer" style="width: 960px; height: 600px"></div>
+      <div class="footer">
+        <div class="webgl-logo"></div>
+        <div class="fullscreen" onclick="unityInstance.SetFullscreen(1)"></div>
+        <div class="title">3D MOA</div>
+      </div>
+    </div>
+  </body>
+</html>

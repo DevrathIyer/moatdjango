@@ -1,0 +1,16 @@
+{
+"companyName": "Visual Attention Lab",
+"productName": "3D MOA",
+"productVersion": "Alpha",
+"dataUrl": "Web3DMOA.data.unityweb",
+"wasmCodeUrl": "Web3DMOA.wasm.code.unityweb",
+"wasmFrameworkUrl": "Web3DMOA.wasm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0","WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F20",
+"cacheControl": {"default": "must-revalidate"},
+"developmentBuild": false,
+"multithreading": false,
+"unityVersion": "2019.3.0f6"
+}

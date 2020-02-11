@@ -32,6 +32,9 @@ def MOAM(request):
     'agents':request.GET.get('agents', '5')}
     return render(request,'MOAT/MOAM.html',context)
 
+def ThreeDMOA(request):
+    return render(request,'MOAT/3DMOA.html',{})
+
 def data_submit(request):
     close_old_connections()
     if request.method == 'PUT':
