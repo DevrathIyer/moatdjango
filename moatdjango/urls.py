@@ -26,5 +26,5 @@ urlpatterns = [
     path('experiments/',include('MOAT.urls')),
     path('data/submit',views.data_submit,name='submit'),
     path('data/get/<slug:experiment_id>',views.data_get,name='get'),
-    path('experiment/<slug:experiment_id>/<slug:key>/connect', views.experiment_connect,name='connect')
+    path('connect/', views.experiment_connect,name='connect')
 ]
