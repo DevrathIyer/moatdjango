@@ -1,14 +1,24 @@
 import re
 from django.db import models
 from django.template.defaultfilters import slugify
+from django.utils.translation import gettext_lazy as _
+from django.core.exceptions import ValidationError
 
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)
     is_protected = models.BooleanField()
     key = models.CharField(max_length = 15)
+    agents = models.IntegerField(default = 16)
+    questions = models.IntegerField(default = 60)
+    min_time = models.IntegerField(default = 30)
+    max_time = models.IntegerField(default = 60)
 
     def __str__(self):
         return self.id
+
+    def clean(self):
+        if self.min_time > self.max_time:
+            return ValidationError(_('Maximum question time should be greater than or equal to Minimum question Time.'))
 
 class DataPoint(models.Model):
     worker = models.ForeignKey('Worker',on_delete=models.CASCADE)
