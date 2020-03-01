@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Experiment,DataPoint,Worker
-from django.http import HttpResponse, HttpResponseForbidden,JsonResponse
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse, Http404
 import json
 import math
 import csv
@@ -123,7 +123,10 @@ def data_get(request,experiment_id):
 def experiment_connect(request, experiment_id,key):
     if request.method == 'GET':
 
-        experiment = Experiment.objects.get(id=experiment_id)
+        try:
+            experiment = Experiment.objects.get(id=experiment_id)
+        except Experiment.DoesNotExist:
+            return Http404("Experiment does not exist")
 
         if experiment.is_protected:
             if key != experiment.key:
