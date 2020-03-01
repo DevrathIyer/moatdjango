@@ -120,8 +120,13 @@ def data_get(request,experiment_id):
             writer.writerow(data)
         return response
 
-def experiment_connect(request, experiment_id,key):
+def experiment_connect(request):
     if request.method == 'GET':
+
+        if request.GET.get('experimentID'):
+            experiment_id = request.GET['experimentID']
+        else:
+            return Http404('No Experiment ID submitted!')
 
         try:
             experiment = Experiment.objects.get(id=experiment_id)
@@ -129,11 +134,17 @@ def experiment_connect(request, experiment_id,key):
             return Http404("Experiment does not exist")
 
         if experiment.is_protected:
+            if request.GET.get('key'):
+                key = request.GET['key']
+            else:
+                return HttpResponseForbidden()
+
             if key != experiment.key:
                 return HttpResponseForbidden()
 
         data = {
             "agents":experiment.agents,
+            "agent_speed":experiment.agent_speed,
             "questions":experiment.questions,
             "min_time":experiment.min_time,
             "max_time":experiment.max_time,
