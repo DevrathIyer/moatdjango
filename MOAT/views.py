@@ -126,12 +126,12 @@ def experiment_connect(request):
         if request.GET.get('experimentID'):
             experiment_id = request.GET['experimentID']
         else:
-            return Http404('No Experiment ID submitted!')
+            raise Http404('No Experiment ID submitted!')
 
         try:
             experiment = Experiment.objects.get(id=experiment_id)
         except Experiment.DoesNotExist:
-            return Http404("Experiment does not exist")
+            raise Http404("Experiment does not exist")
 
         if experiment.is_protected:
             if request.GET.get('key'):
