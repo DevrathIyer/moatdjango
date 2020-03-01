@@ -3,6 +3,12 @@ from django.db import models
 from django.template.defaultfilters import slugify
 from django.utils.translation import gettext_lazy as _
 from django.core.exceptions import ValidationError
+from django.dispatch import receiver
+from django.db.models.signals import pre_save, post_save
+
+@receiver(pre_save)
+def pre_save_handler(sender, instance, *args, **kwargs):
+    instance.full_clean()
 
 class Experiment(models.Model):
     id = models.SlugField(primary_key=True)

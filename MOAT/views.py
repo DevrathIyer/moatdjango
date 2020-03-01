@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Experiment,DataPoint,Worker
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden,JsonResponse
 import json
 import math
 import csv
@@ -119,3 +119,24 @@ def data_get(request,experiment_id):
             print(data)
             writer.writerow(data)
         return response
+
+def experiment_connect(request, experiment_id,key):
+    if request.method == 'GET':
+
+        experiment = Experiment.objects.get(id=experiment_id)
+
+        if experiment.is_protected:
+            if key != experiment.key:
+                return HttpResponseForbidden()
+
+        data = {
+            "agents":experiment.agents,
+            "questions":experiment.questions,
+            "min_time":experiment.min_time,
+            "max_time":experiment.max_time,
+        }
+
+        return JsonResponse(data)
+
+    else:
+        return HttpResponseForbidden()
