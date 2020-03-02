@@ -122,23 +122,16 @@ def data_get(request,experiment_id):
 
 def experiment_connect(request):
     if request.method == 'GET':
-
-        if request.GET.get('experimentID'):
-            experiment_id = request.GET['experimentID']
-        else:
-            raise Http404('No Experiment ID submitted!')
-
+        body = request.GET
+        logger.info(body)
+        experiment_id = body['experimentID']
         try:
             experiment = Experiment.objects.get(id=experiment_id)
         except Experiment.DoesNotExist:
             raise Http404("Experiment does not exist")
-
+        logger.info(experiment.agents)
         if experiment.is_protected:
-            if request.GET.get('key'):
-                key = request.GET['key']
-            else:
-                return HttpResponseForbidden()
-
+            key = body['key']
             if key != experiment.key:
                 return HttpResponseForbidden()
 
