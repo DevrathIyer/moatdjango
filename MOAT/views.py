@@ -116,7 +116,6 @@ def data_get(request,experiment_id):
         for point in points:
             data = [point.worker,point.nagents,point.height,point.width,point.dpi,point.type,point.question,point.target,point.nclicks,point.clicks,point.dists]
             data.extend(json.loads(point.agents))
-            print(data)
             writer.writerow(data)
         return response
 

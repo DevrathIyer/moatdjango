@@ -18,7 +18,7 @@ class Experiment(models.Model):
     questions = models.IntegerField(default = 60)
     min_time = models.IntegerField(default = 30)
     max_time = models.IntegerField(default = 60)
-    agent_speed = models.IntegerField(default = 10)
+    agent_speed = models.FloatField(default = 1.0)
 
     def __str__(self):
         return self.id
