@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 import logging
-
+logger = logging.getLogger('testlogger')
 class CorsMiddleware(object):
 
     def __init__(self, get_response):
@@ -10,7 +10,7 @@ class CorsMiddleware(object):
         return self.get_response(request)
 
     def process_exception(self, request, exception):
-        logger = logging.getLogger('testlogger')
+        logger.error(exception)
         return HttpResponse("in exception")
 
     def process_response(self, req, resp):
