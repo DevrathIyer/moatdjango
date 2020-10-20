@@ -14,6 +14,7 @@ class MyAdminSite(admin.AdminSite):
     site_header = "Visual Attention Lab"
 
     def workerExperiment(self,request,experiment_id,worker_id):
+        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         experiment = Experiment.objects.get(pk=experiment_id)
 
@@ -38,15 +39,17 @@ class MyAdminSite(admin.AdminSite):
             context['clicks'].append(json.loads(point.clicks))
             context['dists'].append(point.dists.split(','))
             context['pos'].append(point.pos)
+        close_old_connections()
         return render(request,'Admin/workerExperiment.html',context)
 
     def getWorkerData(self,request,experiment_id,worker_id):
+        close_old_connections()
         worker = Worker.objects.get(pk=worker_id)
         exp = Experiment.objects.get(pk=experiment_id)
 
         context = {}
         context['DataPoints'] = DataPoint.objects.get(worker=worker,experiment=exp,isTestPoint=False)
-
+        close_old_connections()
         return JsonResponse(context)
 
 class ExperimentAdmin(admin.ModelAdmin):
@@ -57,6 +60,7 @@ class ExperimentAdmin(admin.ModelAdmin):
         return form
 
     def change_view(self, request, object_id, form_url='', extra_context=None):
+        close_old_connections()
         self.change_form_template = 'Admin/MOAT/experiment/change_form.html'
         logger.info(object_id)
         exp = Experiment.objects.get(pk=object_id)
@@ -66,8 +70,11 @@ class ExperimentAdmin(admin.ModelAdmin):
         extra_context['workers'] = exp.worker_set.all()
         extra_context['object_id'] = object_id
 
+        close_old_connections()
+
         return super(ExperimentAdmin, self).change_view(request,object_id, form_url='', extra_context=extra_context)
         #return render(request,'Admin/MOAT/experiment/change_form.html',extra_context)
+
 mysite = MyAdminSite()
 admin.site = mysite
 sites.site = mysite
